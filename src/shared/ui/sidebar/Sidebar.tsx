@@ -1,11 +1,12 @@
 import * as React from "react";
 import {
-    AppItem,
+    Avatar,
     NavDivider,
     NavDrawer,
     NavDrawerBody,
     NavDrawerFooter,
     NavDrawerHeader,
+    Title3,
 } from "@fluentui/react-components";
 
 import {
@@ -19,24 +20,24 @@ import {
 import { NavLink } from "react-router";
 import { navLinks } from "../../data/NavLinks";
 
-const drawerWidth = "350px";
 const drawerMargin = tokens.spacingVerticalM;
 
 const useStyles = makeStyles({
     root: {
         overflow: "hidden",
         minHeight: "100vh",
-        position: "relative",
+        position: "fixed",
         display: "flex",
         backgroundColor: tokens.colorNeutralBackground1,
     },
     title: {
         fontWeight: "600",
         color: "#06923E",
+        margin: "10px 0"
     },
     nav: {
         minWidth: "200px",
-        width: drawerWidth,
+        width: "var(--sidebar-width)",
     },
     content: {
         flex: "1",
@@ -98,9 +99,34 @@ const useStyles = makeStyles({
     userWrapper: {
         width: "100%",
         backgroundColor: "white",
-        padding: "12px 10px",
-        borderRadius: "4px"
+        padding: "8px",
+        borderRadius: "4px",
+        border: "1px solid #dcdcdc",
+        display: "flex",
+        flexDirection: "row",
+        gap: "12px",
+        justifyContent: "flex-start",
+        alignItems: 'center'
+    },
+
+    profileInfo: {
+        display: 'flex',
+        flexDirection: "column",
+        justifyContent: 'center',
+        alignItems: "center",
+    },
+
+    nameSpan: {
+        fontSize: "18px",
+        fontWeight: "500",
+        color: "black"
+    },
+    roleSpan: {
+        fontSize: "14px",
+        color: "grey"
     }
+
+
 });
 
 
@@ -151,9 +177,7 @@ export const Sidebar = (): React.ReactElement => {
                 className={styles.nav}
             >
                 <NavDrawerHeader>
-                    <AppItem className={styles.title}>
-                        Админ панель
-                    </AppItem>
+                    <Title3 className={styles.title}>STORAGE</Title3>
                 </NavDrawerHeader>
                 <NavDivider />
                 <NavDrawerBody className={styles.body}>
@@ -173,7 +197,11 @@ export const Sidebar = (): React.ReactElement => {
                 </NavDrawerBody>
                 <NavDrawerFooter className={styles.footerWrapper}>
                     <div className={styles.userWrapper}>
-                        <span>User</span>
+                        <Avatar/>
+                        <div className={styles.profileInfo}>
+                            <span className={styles.nameSpan}>Alisher</span>
+                            <span className={styles.roleSpan}>admin</span>
+                        </div>
                     </div>
                 </NavDrawerFooter>
             </NavDrawer>
