@@ -5,6 +5,7 @@ import { GuestRoutes } from "../Providers/GuestRoutes"
 import { Login } from "../../pages/login";
 import { Suspense } from "react";
 import { Statistics } from "../../pages/statistics";
+import { PrivateRoutes } from "../Providers/PrivateRoutes";
 import { Users } from "../../pages/users";
 
 
@@ -15,17 +16,20 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/statistics",
-        element: <Suspense>
-          <Statistics />
-        </Suspense>
+        element: <PrivateRoutes>
+          <Suspense fallback={<h1>loading...</h1>}>
+            <Statistics />
+          </Suspense>
+        </PrivateRoutes>
       },
       {
         path: "/users",
-        element:
-          <Suspense fallback={<h1>Loading...</h1>}>
+        element: <PrivateRoutes>
+          <Suspense fallback={<h1>loading...</h1>}>
             <Users />
           </Suspense>
-      },
+        </PrivateRoutes>
+      }
     ]
   },
   {
