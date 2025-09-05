@@ -102,7 +102,7 @@ const useStyles = makeStyles({
 
     userWrapper: {
         width: "100%",
-        backgroundColor: "white", 
+        backgroundColor: "white",
         padding: "12px 10px",
         borderRadius: "4px"
     }
@@ -159,46 +159,51 @@ const Reports = bundleIcon(
 type DrawerType = Required<DrawerProps>["type"];
 
 export const Sidebar = (): React.ReactElement => {
-  const styles = useStyles();
+    const styles = useStyles();
 
-  const [isOpen, setIsOpen] = React.useState(true);
-  const [enabledLinks, setEnabledLinks] = React.useState(true);
-  const [type, setType] = React.useState<DrawerType>("inline");
+    const [isOpen, setIsOpen] = React.useState(true);
+    const [enabledLinks, setEnabledLinks] = React.useState(true);
+    const [type, setType] = React.useState<DrawerType>("inline");
 
-  // Tabster prop used to restore focus to the navigation trigger for overlay nav drawers
-  const restoreFocusTargetAttributes = useRestoreFocusTarget();
+    // Tabster prop used to restore focus to the navigation trigger for overlay nav drawers
+    const restoreFocusTargetAttributes = useRestoreFocusTarget();
 
-  const linkDestination = enabledLinks ? "https://www.bing.com" : "";
+    const linkDestination = enabledLinks ? "https://www.bing.com" : "";
 
-  return (
-    <div className={styles.root}>
-      <NavDrawer
-        defaultSelectedValue="2"
-        defaultSelectedCategoryValue=""
-        open={isOpen}
-        type={type}
-        multiple={false}
-        onOpenChange={(_, data) => setIsOpen(data.open)}
-        surfaceMotion={{ children: (_, props) => <DrawerMotion {...props} /> }}
-        className={styles.nav}
-      >
-        <NavDrawerBody>
-          <AppItem
-            icon={<PersonCircle32Regular />}
-            as="a"
-            href={linkDestination}
-          >
-            Contoso HR
-          </AppItem>
-          <NavItem href={linkDestination} icon={<Dashboard />} value="1">
-            <Link to={"users"}>
-              Users
-            </Link>
-          </NavItem>
-          <NavItem href={linkDestination} icon={<Announcements />} value="2">
-            Announcements
-          </NavItem>
-          {/* <NavItem
+    return (
+        <div className={styles.root}>
+            <NavDrawer
+                defaultSelectedValue="2"
+                defaultSelectedCategoryValue=""
+                open={true}
+                type={type}
+                multiple={false}
+                onOpenChange={(_, data) => setIsOpen(data.open)}
+                surfaceMotion={{ children: (_, props) => <DrawerMotion {...props} /> }}
+                className={styles.nav}
+            >
+                <NavDrawerBody>
+                    <AppItem
+                        icon={<PersonCircle32Regular />}
+                        as="a"
+                        href={linkDestination}
+                    >
+                        Contoso HR
+                    </AppItem>
+                    <NavItem
+                        // icon={<Dashboard />}
+                        value="1">
+                        <Link to={"/users"}>
+                            Users
+                        </Link>
+                    </NavItem>
+                    <NavItem href={linkDestination}
+                        // icon={<Announcements />}
+                        value="2">
+                        Announcements
+                    </NavItem>
+                </NavDrawerBody>
+                {/* <NavItem
             href={linkDestination}
             icon={<EmployeeSpotlight />}
             value="3"
@@ -215,7 +220,7 @@ export const Sidebar = (): React.ReactElement => {
           >
             Performance Reviews
           </NavItem> */}
-                    {/* <NavSectionHeader>Employee Management</NavSectionHeader>
+                {/* <NavSectionHeader>Employee Management</NavSectionHeader>
                     <NavCategory value="6">
                         <NavCategoryItem icon={<JobPostings />}>
                             Job Postings
@@ -251,7 +256,7 @@ export const Sidebar = (): React.ReactElement => {
                         </NavSubItemGroup>
                     </NavCategory> */}
 
-                    {/* <NavSectionHeader>Learning</NavSectionHeader>
+                {/* <NavSectionHeader>Learning</NavSectionHeader>
           <NavItem icon={<TrainingPrograms />} value="15">
             Training Programs
           </NavItem>
@@ -268,7 +273,7 @@ export const Sidebar = (): React.ReactElement => {
               </NavSubItem>
             </NavSubItemGroup>
           </NavCategory> */}
-                    {/* <NavDivider />
+                {/* <NavDivider />
                     <NavItem target="_blank" icon={<Analytics />} value="19">
                         Workforce Data
                     </NavItem>

@@ -5,7 +5,7 @@ export const Layout = () => {
     return <div style={{
         display: "flex"
     }}>
-        <Sidebar/>
-        <Outlet/>
+        <Sidebar />
+        <Outlet />
     </div>
 }
