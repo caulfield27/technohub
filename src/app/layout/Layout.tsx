@@ -1,8 +1,9 @@
 import { Outlet } from "react-router"
+import { Sidebar } from "../../shared/ui/sidebar/Sidebar"
 
 export const Layout = () => {
     return <div>
-        <div>sidebar</div>
+        <Sidebar/>
         <Outlet/>
     </div>
 }
