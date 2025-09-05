@@ -50,6 +50,7 @@ import {
   bundleIcon,
   PersonCircle32Regular,
 } from "@fluentui/react-icons";
+import { Link } from "react-router";
 
 const drawerWidth = "260px";
 const drawerMargin = tokens.spacingVerticalM;
@@ -183,7 +184,9 @@ export const Sidebar = (): React.ReactElement => {
             Contoso HR
           </AppItem>
           <NavItem href={linkDestination} icon={<Dashboard />} value="1">
-            Dashboard
+            <Link to={"users"}>
+              Users
+            </Link>
           </NavItem>
           <NavItem href={linkDestination} icon={<Announcements />} value="2">
             Announcements
