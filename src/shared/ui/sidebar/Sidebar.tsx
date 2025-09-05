@@ -1,18 +1,11 @@
-import type { DrawerProps } from "@fluentui/react-components";
 import * as React from "react";
 import {
     AppItem,
-    NavCategory,
-    NavCategoryItem,
     NavDivider,
     NavDrawer,
     NavDrawerBody,
     NavDrawerFooter,
     NavDrawerHeader,
-    NavItem,
-    NavSectionHeader,
-    NavSubItem,
-    NavSubItemGroup,
 } from "@fluentui/react-components";
 
 import {
@@ -20,41 +13,13 @@ import {
     makeStyles,
     motionTokens,
     tokens,
-    useRestoreFocusTarget,
 } from "@fluentui/react-components";
-import {
-    Board20Filled,
-    Board20Regular,
-    BoxMultiple20Filled,
-    BoxMultiple20Regular,
-    DataArea20Filled,
-    DataArea20Regular,
-    DocumentBulletListMultiple20Filled,
-    DocumentBulletListMultiple20Regular,
-    HeartPulse20Filled,
-    HeartPulse20Regular,
-    MegaphoneLoud20Filled,
-    MegaphoneLoud20Regular,
-    NotePin20Filled,
-    NotePin20Regular,
-    People20Filled,
-    People20Regular,
-    PeopleStar20Filled,
-    PeopleStar20Regular,
-    Person20Filled,
-    PersonLightbulb20Filled,
-    PersonLightbulb20Regular,
-    Person20Regular,
-    PersonSearch20Filled,
-    PersonSearch20Regular,
-    PreviewLink20Filled,
-    PreviewLink20Regular,
-    bundleIcon,
-    PersonCircle32Regular,
-} from "@fluentui/react-icons";
-import { NavLink } from "react-router";
 
-const drawerWidth = "260px";
+
+import { NavLink } from "react-router";
+import { navLinks } from "../../data/NavLinks";
+
+const drawerWidth = "350px";
 const drawerMargin = tokens.spacingVerticalM;
 
 const useStyles = makeStyles({
@@ -64,6 +29,10 @@ const useStyles = makeStyles({
         position: "relative",
         display: "flex",
         backgroundColor: tokens.colorNeutralBackground1,
+    },
+    title: {
+        fontWeight: "600",
+        color: "#06923E",
     },
     nav: {
         minWidth: "200px",
@@ -84,7 +53,7 @@ const useStyles = makeStyles({
         inset: 0,
     },
     body: {
-        padding: "16px"
+        padding: "16px 8px",
     },
     field: {
         display: "flex",
@@ -97,12 +66,38 @@ const useStyles = makeStyles({
         display: "flex",
         justifyContent: "center",
         alignItems: "flex-start",
-        padding: "16px"
+        padding: "16px",
     },
 
+    navContainer: {
+        display: "flex",
+        flexDirection: "column",
+        gap: "8px"
+    },
+    linkItem: {
+        display: "flex",
+        flexDirection: "row",
+        gap: "8px",
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        textDecoration: "none",
+        color: "#171717",
+        padding: "8px 8px 8px 16px",
+        borderRadius: "6px",
+        transition: "0.3s linear",
+        ":hover": {
+            backgroundColor: "white",
+            color: "#06923E"
+        }
+    },
+    activeLink: {
+        pointerEvents: "none",
+        background: "white",
+        color: "#06923E !important"
+    },
     userWrapper: {
         width: "100%",
-        backgroundColor: "white", 
+        backgroundColor: "white",
         padding: "12px 10px",
         borderRadius: "4px"
     }
@@ -141,23 +136,6 @@ const DrawerMotion = createPresenceComponent(() => {
     };
 });
 
-/*
- * Create a custom ContentMotion component that animates the content element.
- */
-
-
-const Person = bundleIcon(Person20Filled, Person20Regular);
-const JobPostings = bundleIcon(NotePin20Filled, NotePin20Regular);
-const Interviews = bundleIcon(People20Filled, People20Regular);
-const HealthPlans = bundleIcon(HeartPulse20Filled, HeartPulse20Regular);
-const Analytics = bundleIcon(DataArea20Filled, DataArea20Regular);
-const Reports = bundleIcon(
-    DocumentBulletListMultiple20Filled,
-    DocumentBulletListMultiple20Regular
-);
-
-type DrawerType = Required<DrawerProps>["type"];
-
 export const Sidebar = (): React.ReactElement => {
     const styles = useStyles();
 
@@ -173,99 +151,26 @@ export const Sidebar = (): React.ReactElement => {
                 className={styles.nav}
             >
                 <NavDrawerHeader>
-                    <AppItem>
+                    <AppItem className={styles.title}>
                         Админ панель
                     </AppItem>
                 </NavDrawerHeader>
-                {/* <NavDrawerBody className={styles.body}>
-                    <NavItem value="1" as="a" href="/statistics">Статистика</NavItem>
-                </NavDrawerBody> */}
+                <NavDivider />
                 <NavDrawerBody className={styles.body}>
-                    <NavItem as="a" href={"/statistics"} icon={<JobPostings />} value="1">
-                        Статистика
-                    </NavItem>
-                    <NavItem  as="a" href={"/"} icon={<Interviews />} value="2">
-                        Announcements
-                    </NavItem>
+                    <nav className={styles.navContainer}>
+                        {navLinks.map((link) =>
+                            <NavLink
+                                className={({ isActive }) => isActive ? `${styles.linkItem} ${styles.activeLink}` : styles.linkItem}
+                                to={link.path}
+                                key={link.path}>
+                                {link.icon}
+                                <span>
+                                    {link.label}
+                                </span>
+                            </NavLink>)}
+
+                    </nav>
                 </NavDrawerBody>
-                    {/* <NavItem
-            href={linkDestination}
-            icon={<EmployeeSpotlight />}
-            value="3"
-          >
-            Employee Spotlight
-          </NavItem>
-          <NavItem icon={<Search />} href={linkDestination} value="4">
-            Profile Search
-          </NavItem>
-          <NavItem
-            icon={<PerformanceReviews />}
-            href={linkDestination}
-            value="5"
-          >
-            Performance Reviews
-          </NavItem> */}
-                    {/* <NavSectionHeader>Employee Management</NavSectionHeader>
-                    <NavCategory value="6">
-                        <NavCategoryItem icon={<JobPostings />}>
-                            Job Postings
-                        </NavCategoryItem>
-                        <NavSubItemGroup>
-                            <NavSubItem href={linkDestination} value="7">
-                                Openings
-                            </NavSubItem>
-                            <NavSubItem href={linkDestination} value="8">
-                                Submissions
-                            </NavSubItem>
-                        </NavSubItemGroup>
-                    </NavCategory>
-                    <NavItem icon={<Interviews />} value="9">
-                        Interviews
-                    </NavItem>
-
-                    <NavSectionHeader>Benefits</NavSectionHeader>
-                    <NavItem icon={<HealthPlans />} value="10">
-                        Health Plans
-                    </NavItem>
-                    <NavCategory value="11">
-                        <NavCategoryItem icon={<Person />} value="12">
-                            Retirement
-                        </NavCategoryItem>
-                        <NavSubItemGroup>
-                            <NavSubItem href={linkDestination} value="13">
-                                Plan Information
-                            </NavSubItem>
-                            <NavSubItem href={linkDestination} value="14">
-                                Fund Performance
-                            </NavSubItem>
-                        </NavSubItemGroup>
-                    </NavCategory> */}
-
-                    {/* <NavSectionHeader>Learning</NavSectionHeader>
-          <NavItem icon={<TrainingPrograms />} value="15">
-            Training Programs
-          </NavItem>
-          <NavCategory value="16">
-            <NavCategoryItem icon={<CareerDevelopment />}>
-              Career Development
-            </NavCategoryItem>
-            <NavSubItemGroup>
-              <NavSubItem href={linkDestination} value="17">
-                Career Paths
-              </NavSubItem>
-              <NavSubItem href={linkDestination} value="18">
-                Planning
-              </NavSubItem>
-            </NavSubItemGroup>
-          </NavCategory> */}
-                    {/* <NavDivider />
-                    <NavItem target="_blank" icon={<Analytics />} value="19">
-                        Workforce Data
-                    </NavItem>
-                    <NavItem href={linkDestination} icon={<Reports />} value="20">
-                        Reports
-                    </NavItem>
-                </NavDrawerBody> */}
                 <NavDrawerFooter className={styles.footerWrapper}>
                     <div className={styles.userWrapper}>
                         <span>User</span>
