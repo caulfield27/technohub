@@ -79,5 +79,6 @@ export const apiUrl = {
   ping: "/ping",
   users: "/user/all",
   createUser: "/user/create-user",
-  roles: "/user/roles"
+  roles: "/user/roles",
+  products: "/product/all"
 }

@@ -8,6 +8,7 @@ const pathnames = {
   "/products": "Список Товаров",
   "/orders": "Заказы",
   "/statistics": "Статистика",
+  "/party": "Партии",
 };
 
 const Header = () => {

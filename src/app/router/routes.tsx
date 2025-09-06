@@ -9,6 +9,7 @@ import { Users } from "../../pages/users";
 import { Storage } from "../../pages/storage";
 import { Orders } from "../../pages/orders";
 import { Products } from "../../pages/products";
+import { Party } from "@/pages/Party";
 import { OrderStatus } from "@/pages/orderStatus";
 
 export const router = createBrowserRouter([
@@ -69,6 +70,20 @@ export const router = createBrowserRouter([
             </Suspense>
           </PrivateRoutes>
         ),
+      },
+      {
+        path: "party",
+        element: (
+          <PrivateRoutes>
+            <Suspense fallback={<h1>loading...</h1>}>
+              <Party />
+            </Suspense>
+          </PrivateRoutes>
+        ),
+      },
+      {
+        index: true,
+        element: <Navigate to="products" />,
       },
       {
         path: "ordersStatus",
