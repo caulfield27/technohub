@@ -1,36 +1,42 @@
-import { People16Regular, Poll16Regular, TableSimple16Regular, TaskListSquareLtr16Regular, Grid16Regular } from "@fluentui/react-icons"
-import type { ReactElement } from "react"
+import {
+  Poll20Regular,
+  People20Regular,
+  TableSimple20Regular,
+  TaskListSquareLtr20Regular,
+  Grid20Regular,
+} from "@fluentui/react-icons";
+import type { ReactElement } from "react";
 
-export interface INavLinks{
-    label: string,
-    icon: ReactElement,
-    path: string
+export interface INavLinks {
+  label: string;
+  icon: ReactElement;
+  path: string;
 }
 
 export const navLinks: INavLinks[] = [
-    {
-        label: "Статистика",
-        icon: <Poll16Regular />,
-        path: "/statistics"
-    },
-    {
-        label: "Пользователи",
-        icon: <People16Regular/>,
-        path: "/users"
-    },
-    {
-        label: "Склады",
-        icon: <TableSimple16Regular/>,
-        path: "/storages"
-    },
-    {
-        label: "Заказы",
-        icon: <TaskListSquareLtr16Regular/>,
-        path: "/orders"
-    },
-    {
-        label: "Продукты",
-        icon: <Grid16Regular/>,
-        path: "/products"
-    }
-]
+  {
+    label: "Статистика",
+    icon: <Poll20Regular />,
+    path: "/statistics",
+  },
+  {
+    label: "Пользователи",
+    icon: <People20Regular />,
+    path: "/users",
+  },
+  {
+    label: "Склады",
+    icon: <TableSimple20Regular />,
+    path: "/storages",
+  },
+  {
+    label: "Заказы",
+    icon: <TaskListSquareLtr20Regular />,
+    path: "/orders",
+  },
+  {
+    label: "Продукты",
+    icon: <Grid20Regular />,
+    path: "/products",
+  },
+];

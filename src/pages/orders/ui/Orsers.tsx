@@ -1,7 +1,5 @@
-import { Title2 } from "@fluentui/react-components";
-
 const Orders = () => {
-    return <Title2>Заказы</Title2>;
-}
- 
+  return <>test</>;
+};
+
 export default Orders;
