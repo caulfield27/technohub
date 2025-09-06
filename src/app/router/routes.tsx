@@ -11,6 +11,7 @@ import { Orders } from "../../pages/orders";
 import { Products } from "../../pages/products";
 import { Party } from "@/pages/Party";
 import { OrderStatus } from "@/pages/orderStatus";
+import Loading from "@/shared/ui/loading/Loading";
 
 export const router = createBrowserRouter([
   {
@@ -25,7 +26,7 @@ export const router = createBrowserRouter([
         path: "statistics",
         element: (
           <PrivateRoutes>
-            <Suspense fallback={<h1>loading...</h1>}>
+            <Suspense fallback={<Loading />}>
               <Statistics />
             </Suspense>
           </PrivateRoutes>
@@ -35,7 +36,7 @@ export const router = createBrowserRouter([
         path: "users",
         element: (
           <PrivateRoutes>
-            <Suspense fallback={<h1>loading...</h1>}>
+            <Suspense fallback={<Loading />}>
               <Users />
             </Suspense>
           </PrivateRoutes>
@@ -45,7 +46,7 @@ export const router = createBrowserRouter([
         path: "storages",
         element: (
           <PrivateRoutes>
-            <Suspense fallback={<h1>loading...</h1>}>
+            <Suspense fallback={<Loading />}>
               <Storage />
             </Suspense>
           </PrivateRoutes>
@@ -55,7 +56,7 @@ export const router = createBrowserRouter([
         path: "orders",
         element: (
           <PrivateRoutes>
-            <Suspense fallback={<h1>loading...</h1>}>
+            <Suspense fallback={<Loading />}>
               <Orders />
             </Suspense>
           </PrivateRoutes>
@@ -65,7 +66,7 @@ export const router = createBrowserRouter([
         path: "products",
         element: (
           <PrivateRoutes>
-            <Suspense fallback={<h1>loading...</h1>}>
+            <Suspense fallback={<Loading />}>
               <Products />
             </Suspense>
           </PrivateRoutes>
@@ -75,7 +76,7 @@ export const router = createBrowserRouter([
         path: "party",
         element: (
           <PrivateRoutes>
-            <Suspense fallback={<h1>loading...</h1>}>
+            <Suspense fallback={<Loading />}>
               <Party />
             </Suspense>
           </PrivateRoutes>
@@ -89,7 +90,7 @@ export const router = createBrowserRouter([
         path: "ordersStatus",
         element: (
           <PrivateRoutes>
-            <Suspense fallback={<h1>loading...</h1>}>
+            <Suspense fallback={<Loading />}>
               <OrderStatus />
             </Suspense>
           </PrivateRoutes>
@@ -101,7 +102,7 @@ export const router = createBrowserRouter([
     path: "/login",
     element: (
       <GuestRoutes>
-        <Suspense fallback={<h1>Loading...</h1>}>
+        <Suspense fallback={<Loading />}>
           <Login />
         </Suspense>
       </GuestRoutes>

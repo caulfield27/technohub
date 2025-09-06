@@ -80,5 +80,6 @@ export const apiUrl = {
   users: "/user/all",
   createUser: "/user/create-user",
   roles: "/user/roles",
-  products: "/product/all"
-}
+  products: "/product/all",
+  createWarehouse: "/warehouse/create",
+};

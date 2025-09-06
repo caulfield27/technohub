@@ -1,17 +1,16 @@
 import type { ReactNode } from "react";
-import { getToken } from "../../shared/utils/getToken";
+import { getAccessToken } from "@/shared/utils/getToken";
 import { Navigate } from "react-router";
 
-
 interface Props {
-    children: ReactNode
+  children: ReactNode;
 }
 
 export const GuestRoutes = ({ children }: Props) => {
-    const token = getToken();
-    if (token) {
-        return <Navigate to="/" replace />
-    };
-    
-    return children;
-}
+  const token = getAccessToken();
+  if (token) {
+    return <Navigate to="/" replace />;
+  }
+
+  return children;
+};

@@ -4,6 +4,14 @@ const useStyles = makeStyles({
   filterContainer: {
     marginTop: "16px",
     marginBottom: "16px",
+    display: "flex",
+    justifyContent: "start",
+    gap: "10px",
+  },
+
+  searchInput: {
+    flexGrow: 1,
+    maxWidth: "300px",
   },
 });
 
@@ -21,6 +29,12 @@ const useDrawerStyles = makeStyles({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+  },
+
+  errorMessage: {
+    color: "#d13438",
+    fontSize: "12px",
+    marginTop: "2px",
   },
 
   drawerBody: {
