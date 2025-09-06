@@ -81,6 +81,7 @@ export const useStyles = makeStyles({
     color: "var(--primery-green-color) !important",
   },
   userWrapper: {
+    cursor: "pointer",
     width: "100%",
     backgroundColor: "white",
     padding: "8px",

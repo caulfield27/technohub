@@ -3,13 +3,12 @@ import TableCell from "@/shared/ui/table/TableCell";
 import TableHeader from "@/shared/ui/table/TableHeader";
 import TableHeaderCell from "@/shared/ui/table/TableHeaderCell";
 import TableRow from "@/shared/ui/table/TableRow";
-import { TableBody, Title2 } from "@fluentui/react-components";
+import { TableBody } from "@fluentui/react-components";
 import { storageData } from "../mock";
 
 const Storage = () => {
   return (
     <>
-      <Title2>Склады</Title2>
       <Table>
         <TableHeader>
           <TableHeaderCell>ID</TableHeaderCell>

@@ -5,7 +5,6 @@ import {
   TableCell,
   TableHeaderCell,
   TabList,
-  Title2,
 } from "@fluentui/react-components";
 import { userData } from "../api/data";
 import TableHeaderNewComponent from "@/shared/ui/table/TableHeader";
@@ -28,9 +27,6 @@ export default function Users() {
 
   return (
     <>
-      <div className={styles.page_title}>
-        <Title2>Пользователи</Title2>
-      </div>
       <div className={styles.filter_container}>
         <div>
           <Input
