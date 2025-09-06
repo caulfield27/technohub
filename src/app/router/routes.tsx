@@ -9,6 +9,7 @@ import { PrivateRoutes } from "../Providers/PrivateRoutes";
 import { Users } from "../../pages/users";
 import { Storage } from "../../pages/storage";
 import { Orders } from "../../pages/orders";
+import { Products } from "../../pages/products";
 
 
 export const router = createBrowserRouter([
@@ -45,6 +46,22 @@ export const router = createBrowserRouter([
         element: <PrivateRoutes>
           <Suspense fallback={<h1>loading...</h1>}>
             <Orders />
+          </Suspense>
+        </PrivateRoutes>
+      },
+      {
+        path: "/orders",
+        element: <PrivateRoutes>
+          <Suspense fallback={<h1>loading...</h1>}>
+            <Orders />
+          </Suspense>
+        </PrivateRoutes>
+      },
+      {
+        path: "/products",
+        element: <PrivateRoutes>
+          <Suspense fallback={<h1>loading...</h1>}>
+            <Products />
           </Suspense>
         </PrivateRoutes>
       }
