@@ -50,7 +50,12 @@ export const usePermittedLinks = (user: User | null): INavLinks[] => {
                     label: "Склады",
                     icon: <TableSimple20Regular />,
                     path: "/storages",
-                }
+                },
+                {
+                    label: "Партии",
+                    icon: <Grid20Regular />,
+                    path: "/party",
+                },
             ];
         case "operator":
             return [
@@ -63,7 +68,12 @@ export const usePermittedLinks = (user: User | null): INavLinks[] => {
                     label: "Статистика",
                     icon: <Poll20Regular />,
                     path: "/statistics",
-                }
+                },
+                {
+                    label: "Партии",
+                    icon: <Grid20Regular />,
+                    path: "/party",
+                },
             ];
         default:
             return [];
