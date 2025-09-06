@@ -1,15 +1,13 @@
-
-:root{
-  --sidebar-width: 350px
+:root {
+  --sidebar-width: 350px;
+  --primery-green-color: #06923E;
 }
 
-*{
+* {
   box-sizing: border-box;
 }
 
-body{
+body {
   margin: 0;
   padding: 0;
 }
-
-
