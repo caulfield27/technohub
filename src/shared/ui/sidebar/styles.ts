@@ -1,133 +1,144 @@
-import { makeStyles } from "@fluentui/react";
-import { tokens } from "@fluentui/react-components";
+import {
+  createPresenceComponent,
+  makeStyles,
+  motionTokens,
+  tokens,
+} from "@fluentui/react-components";
 
-export const useSidebarStyles = makeStyles({
-  sidebar_container: {
-    background: tokens.colorNeutralBackground3,
-    padding: "0 28px",
-    maxWidth: "300px",
-    minHeight: "80vh",
-    width: "230px",
-    height: "100%",
-    overflow: "auto",
-    "::-webkit-scrollbar": {
-      width: "0",
-      height: "0",
-    },
-    "::-webkit-scrollbar-track": {
-      display: "none",
-    },
-    "::-webkit-scrollbar-thumb": {
-      backgroundColor: "transparent",
-    },
-    "@media screen and (max-width: 600px)": {
-      display: "none",
+export const useStyles = makeStyles({
+  root: {
+    overflow: "hidden",
+    minHeight: "100vh",
+    position: "fixed",
+    display: "flex",
+    backgroundColor: tokens.colorNeutralBackground1,
+  },
+  title: {
+    fontWeight: "600",
+    color: "var(--primery-green-color)",
+    margin: "10px 0",
+  },
+  nav: {
+    minWidth: "200px",
+    width: "var(--sidebar-width)",
+  },
+  content: {
+    flex: "1",
+    padding: "16px",
+    display: "grid",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+
+    margin: 0,
+    gap: tokens.spacingVerticalM,
+    gridAutoRows: "max-content",
+    boxSizing: "border-box",
+    position: "absolute",
+    inset: 0,
+  },
+  body: {
+    padding: "16px 8px",
+  },
+  field: {
+    display: "flex",
+    marginTop: "4px",
+    marginLeft: "8px",
+    flexDirection: "column",
+    gridRowGap: tokens.spacingVerticalS,
+  },
+  footerWrapper: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "flex-start",
+    padding: "16px",
+  },
+
+  navContainer: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "8px",
+  },
+  linkItem: {
+    display: "flex",
+    flexDirection: "row",
+    gap: "8px",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    textDecoration: "none",
+    color: "#171717",
+    padding: "8px 8px 8px 16px",
+    borderRadius: "6px",
+    transition: "0.3s linear",
+    ":hover": {
+      backgroundColor: "white",
+      color: "var(--primery-green-color)",
     },
   },
-  top_block: {
+  activeLink: {
+    pointerEvents: "none",
+    background: "white",
+    color: "var(--primery-green-color) !important",
+  },
+  userWrapper: {
+    width: "100%",
+    backgroundColor: "white",
+    padding: "8px",
+    borderRadius: "4px",
+    border: "1px solid #dcdcdc",
+    display: "flex",
+    flexDirection: "row",
+    gap: "12px",
+    justifyContent: "flex-start",
+    alignItems: "center",
+  },
+
+  profileInfo: {
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    position: "absolute",
-    top: "0",
-    backgroundColor: tokens.colorNeutralBackground3,
-    padding: "36px 0 15px 0",
-    width: "238px",
-    zIndex: "3",
-  },
-  title_row: {
-    color: tokens.colorCompoundBrandForeground1,
-    fontWeight: "700",
-    fontSize: "24px",
-    lineHeight: "28px",
-    fontStyle: "normal",
-    textAlign: "left",
-  },
-  menuList: {
-    paddingTop: "125px",
-    marginBottom: "50px",
-  },
-  search_container: {
-    padding: "12px 0",
-  },
-  input_filed: {
-    width: "100%",
-    background: tokens.colorNeutralBackground5,
-    borderBottom: "none",
-  },
-  menu_title: {
-    color: tokens.colorNeutralForeground4,
-    padding: "8px 0",
-  },
-  submenu_item: {
-    display: "flex",
     alignItems: "center",
-    marginLeft: "10px",
-  },
-  version: {
-    display: "flex",
-    justifyContent: "center",
-    background: "inherit",
-    width: "inherit",
-    color: tokens.colorNeutralBackground3Pressed,
-    fontSize: "12px",
   },
 
-  bottom_block: {
-    borderTop: `1px solid ${tokens.colorNeutralBackground5}`,
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    position: "absolute",
-    bottom: "4px",
-    background: tokens.colorNeutralBackground3,
-    padding: "10px 5px",
-    width: "235px",
-    borderRadius: "8px",
-    zIndex: "2",
-    ":hover": {
-      background: tokens.colorNeutralBackground3Hover,
-      cursor: "pointer",
+  nameSpan: {
+    fontSize: "18px",
+    fontWeight: "500",
+    color: "black",
+  },
+  roleSpan: {
+    fontSize: "14px",
+    color: "grey",
+  },
+});
+
+export const DrawerMotion = createPresenceComponent(() => {
+  const drawerMargin = tokens.spacingVerticalM;
+  const keyframes = [
+    {
+      opacity: 0,
+      margin: 0,
+      backgroundColor: "#F5F5F5",
+      borderColor: tokens.colorNeutralBackground1,
+      borderRadius: 0,
     },
-  },
-  user_info: {
-    display: "flex",
-    alignItems: "center",
-  },
-  user_details: {
-    marginLeft: "10px",
-  },
-  floating_container: {
-    position: "sticky",
-    bottom: "60px",
-    left: "0",
-    padding: "8px",
-    borderRadius: "12px",
-    zIndex: "999",
-    background: tokens.colorNeutralBackground1,
-    width: "100%",
-    gap: "8px",
-    border: `2px solid ${tokens.colorNeutralBackground5}`,
-  },
-  menu_container: {},
-  theme_container: {
-    padding: "8px 0",
-    borderBottom: `1px solid ${tokens.colorNeutralStroke1}`,
-  },
-  sign_out: {
-    display: "flex",
-    paddingTop: "8px",
-    width: "100%",
-    button: {
-      width: "100%",
-      display: "flex",
-      justifyContent: "flex-start",
+    {
+      opacity: 1,
+      transform: "translate3D(0, 0, 0)",
+      margin: drawerMargin,
+      borderColor: "#F5F5F5",
+      borderRadius: tokens.borderRadiusXLarge,
     },
-  },
-  sidebar_mobile: {
-    // display: "none",
-    "@media screen and (max-width: 600px)": {
-      display: "block",
+  ];
+
+  return {
+    enter: {
+      keyframes,
+      duration: motionTokens.durationNormal,
+      easing: motionTokens.curveDecelerateMin,
     },
-  },
+    exit: {
+      keyframes: [...keyframes].reverse(),
+      duration: motionTokens.durationSlow,
+      easing: motionTokens.curveAccelerateMin,
+    },
+  };
 });
