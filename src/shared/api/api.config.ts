@@ -1,31 +1,83 @@
-import axios from "axios"
-import { getToken } from "../utils/getToken";
+import axios from "axios";
+import { getRefreshToken } from "@/shared/utils/getToken";
+import { useGlobalStore } from "@/shared/store/global.store";
 
-const baseURL = import.meta.env.VITE_BASE_URL ?? "http://79.133.183.218:8880/api/v1";
+const baseURL =
+  import.meta.env.VITE_BASE_URL ?? "http://79.133.183.218:8880/api/v1";
+
 export const request = axios.create({
-    baseURL
+  baseURL,
 });
 
-
 request.interceptors.request.use((config) => {
-    const token = getToken();
-    if (token) {
-        config.headers['token'] = token;
+  const token = getRefreshToken();
+  if (token) {
+    config.headers["token"] = token;
+  }
+  return config;
+});
+
+request.interceptors.response.use(
+  (request) => {
+    const { setToast } = useGlobalStore.getState();
+    if (request.status === 201) {
+      setToast({
+        show: true,
+        title: request?.data?.message || "Данные успешно добавлены",
+        options: {
+          intent: "success",
+        },
+      });
     }
-    return config
-})
 
-// request.interceptors.response.use((request)=>{
+    if (request.status === 204) {
+      setToast({
+        show: true,
+        title: request?.data?.message || "Данные успешно удалены",
+        options: {
+          intent: "success",
+        },
+      });
+    }
 
-// }, (error) =>{
+    if (request.status === 402) {
+      const refreshToken = getRefreshToken();
+      if (refreshToken) {
+        axios
+          .get(`${baseURL}${apiUrl.refresh}`, {
+            headers: { token: refreshToken },
+          })
+          .then((response) => {
+            localStorage.setItem("access_token", response.data.access_token);
+            localStorage.setItem("refresh_token", response.data.refresh_token);
+            request.headers["token"] = response.data.access_token;
+            return request;
+          });
+      }
+    }
 
-// })
+    return request;
+  },
+  (error) => {
+    const { setToast } = useGlobalStore.getState();
+
+    setToast({
+      show: true,
+      title: error?.message || "Произошла ошибка",
+      options: {
+        intent: "error",
+      },
+    });
+  }
+);
 
 export const apiUrl = {
-    login: "/auth/log-in",
-    getMe: "/user/me",
-    ping: "/ping",
-    users: "/user/all",
-    createUser: "/user/create-user",
-    roles: "/user/roles"
+  warehouse: "/warehouse/all",
+  refresh: "/auth/refresh-token",
+  login: "/auth/log-in",
+  getMe: "/user/me",
+  ping: "/ping",
+  users: "/user/all",
+  createUser: "/user/create-user",
+  roles: "/user/roles"
 }

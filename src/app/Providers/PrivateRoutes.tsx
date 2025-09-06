@@ -24,5 +24,5 @@ export const PrivateRoutes = ({ children }: Props) => {
         return <Navigate to="/" replace />
     };
 
-    return children;
-}
+  return children;
+};
