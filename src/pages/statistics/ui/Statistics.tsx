@@ -21,6 +21,7 @@ import {
   Scatter,
   Bubble,
 } from "react-chartjs-2";
+import { useStyles } from "./styles";
 
 ChartJS.register(
   CategoryScale,
@@ -36,6 +37,7 @@ ChartJS.register(
 );
 
 const Statistics = () => {
+  const styles = useStyles();
   const data = {
     labels: ["January", "February", "March", "April", "May"],
     datasets: [
@@ -67,21 +69,14 @@ const Statistics = () => {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "24px",
-        alignItems: "flex-start",
-      }}
-    >
+    <div className={styles.root}>
       <Bar data={data} options={options} />
       <Line data={data} options={options} />
       <Pie data={data} options={options} />
       <Doughnut data={data} options={options} />
       <PolarArea data={data} options={options} />
       <Radar data={data} options={options} />
-      <Scatter
+      {/* <Scatter
         data={{
           datasets: [
             {
@@ -111,7 +106,7 @@ const Statistics = () => {
           ],
         }}
         options={options}
-      />
+      /> */}
     </div>
   );
 };

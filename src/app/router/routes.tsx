@@ -19,10 +19,6 @@ export const router = createBrowserRouter([
     element: <Layout />,
     children: [
       {
-        index: true,
-        element: <Navigate to="products" />,
-      },
-      {
         path: "statistics",
         element: (
           <PrivateRoutes>
@@ -84,7 +80,7 @@ export const router = createBrowserRouter([
       },
       {
         index: true,
-        element: <Navigate to="products" />,
+        element: <Navigate to="party" />,
       },
       {
         path: "ordersStatus",
