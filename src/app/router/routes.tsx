@@ -1,7 +1,6 @@
-
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, Navigate } from "react-router";
 import { Layout } from "../layout/Layout";
-import { GuestRoutes } from "../Providers/GuestRoutes"
+import { GuestRoutes } from "../Providers/GuestRoutes";
 import { Login } from "../../pages/login";
 import { Suspense } from "react";
 import { Statistics } from "../../pages/statistics";
@@ -11,69 +10,75 @@ import { Storage } from "../../pages/storage";
 import { Orders } from "../../pages/orders";
 import { Products } from "../../pages/products";
 
-
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
     children: [
       {
-        path: "/statistics",
-        element: <PrivateRoutes>
-          <Suspense fallback={<h1>loading...</h1>}>
-            <Statistics />
-          </Suspense>
-        </PrivateRoutes>
+        path: "statistics",
+        element: (
+          <PrivateRoutes>
+            <Suspense fallback={<h1>loading...</h1>}>
+              <Statistics />
+            </Suspense>
+          </PrivateRoutes>
+        ),
       },
       {
-        path: "/users",
-        element: <PrivateRoutes>
-          <Suspense fallback={<h1>loading...</h1>}>
-            <Users />
-          </Suspense>
-        </PrivateRoutes>
+        path: "users",
+        element: (
+          <PrivateRoutes>
+            <Suspense fallback={<h1>loading...</h1>}>
+              <Users />
+            </Suspense>
+          </PrivateRoutes>
+        ),
       },
       {
-        path: "/storages",
-        element: <PrivateRoutes>
-          <Suspense fallback={<h1>loading...</h1>}>
-            <Storage />
-          </Suspense>
-        </PrivateRoutes>
+        path: "storages",
+        element: (
+          <PrivateRoutes>
+            <Suspense fallback={<h1>loading...</h1>}>
+              <Storage />
+            </Suspense>
+          </PrivateRoutes>
+        ),
       },
       {
-        path: "/orders",
-        element: <PrivateRoutes>
-          <Suspense fallback={<h1>loading...</h1>}>
-            <Orders />
-          </Suspense>
-        </PrivateRoutes>
+        path: "orders",
+        element: (
+          <PrivateRoutes>
+            <Suspense fallback={<h1>loading...</h1>}>
+              <Orders />
+            </Suspense>
+          </PrivateRoutes>
+        ),
       },
       {
-        path: "/orders",
-        element: <PrivateRoutes>
-          <Suspense fallback={<h1>loading...</h1>}>
-            <Orders />
-          </Suspense>
-        </PrivateRoutes>
+        path: "products",
+        element: (
+          <PrivateRoutes>
+            <Suspense fallback={<h1>loading...</h1>}>
+              <Products />
+            </Suspense>
+          </PrivateRoutes>
+        ),
       },
       {
-        path: "/products",
-        element: <PrivateRoutes>
-          <Suspense fallback={<h1>loading...</h1>}>
-            <Products />
-          </Suspense>
-        </PrivateRoutes>
-      }
-    ]
+        index: true,
+        element: <Navigate to="products" />,
+      },
+    ],
   },
   {
     path: "/login",
-    element: <GuestRoutes>
-      <Suspense fallback={<h1>Loading...</h1>}>
-        <Login />
-      </Suspense>
-    </GuestRoutes>
+    element: (
+      <GuestRoutes>
+        <Suspense fallback={<h1>Loading...</h1>}>
+          <Login />
+        </Suspense>
+      </GuestRoutes>
+    ),
   },
-
 ]);

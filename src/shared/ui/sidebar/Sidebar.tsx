@@ -9,12 +9,13 @@ import {
   Title3,
 } from "@fluentui/react-components";
 
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import { navLinks } from "../../data/NavLinks";
 import { DrawerMotion, useStyles } from "./styles";
 
 export const Sidebar = (): React.ReactElement => {
   const styles = useStyles();
+  const navigate = useNavigate();
 
   return (
     <div className={styles.root}>
@@ -27,7 +28,11 @@ export const Sidebar = (): React.ReactElement => {
         surfaceMotion={{ children: (_, props) => <DrawerMotion {...props} /> }}
         className={styles.nav}
       >
-        <NavDrawerHeader>
+        <NavDrawerHeader
+          onClick={() => {
+            navigate("/");
+          }}
+        >
           <Title3 className={styles.title}>STORAGE</Title3>
         </NavDrawerHeader>
         <NavDivider />

@@ -14,6 +14,7 @@ export const useStyles = makeStyles({
     backgroundColor: tokens.colorNeutralBackground1,
   },
   title: {
+    cursor: "pointer",
     fontWeight: "600",
     color: "var(--primery-green-color)",
     margin: "10px 0",
