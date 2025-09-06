@@ -9,12 +9,17 @@ import { Users } from "../../pages/users";
 import { Storage } from "../../pages/storage";
 import { Orders } from "../../pages/orders";
 import { Products } from "../../pages/products";
+import { OrderStatus } from "@/pages/orderStatus";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
     children: [
+      {
+        index: true,
+        element: <Navigate to="products" />,
+      },
       {
         path: "statistics",
         element: (
@@ -66,8 +71,14 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        index: true,
-        element: <Navigate to="products" />,
+        path: "ordersStatus",
+        element: (
+          <PrivateRoutes>
+            <Suspense fallback={<h1>loading...</h1>}>
+              <OrderStatus />
+            </Suspense>
+          </PrivateRoutes>
+        ),
       },
     ],
   },

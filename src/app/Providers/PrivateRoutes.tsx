@@ -1,17 +1,28 @@
 import type { ReactNode } from "react";
 import { getToken } from "../../shared/utils/getToken";
-import { useNavigate } from "react-router";
+import { Navigate, useLocation } from "react-router";
+import { useGlobalStore } from "@/shared/store/global.store";
+import { permittedRoutes } from "@/shared/data/roles";
 
 
-interface Props{
-    children: ReactNode 
+interface Props {
+    children: ReactNode
 }
 
-export const PrivateRoutes = ({children} : Props) =>{
+export const PrivateRoutes = ({ children }: Props) => {
     const token = getToken();
-    const navigate = useNavigate();
+    const user = useGlobalStore((state) => state.user);
+    const role = user?.Role?.Code;
+    const { pathname } = useLocation();
 
-    if(!token) navigate("/login");
+
+    if (!token) {
+        return <Navigate to="/login" replace />
+    };
+
+    if (role && !permittedRoutes[role].includes(pathname)) {
+        return <Navigate to="/" replace />
+    };
 
     return children;
 }

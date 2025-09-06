@@ -10,14 +10,15 @@ import {
 } from "@fluentui/react-components";
 
 import { NavLink, useNavigate } from "react-router";
-import { navLinks } from "../../data/NavLinks";
 import { DrawerMotion, useStyles } from "./styles";
 import { useGlobalStore } from "../../store/global.store";
+import { usePermittedLinks } from "@/shared/hooks/usePermittedLinks";
 
 export const Sidebar = (): React.ReactElement => {
     const styles = useStyles();
     const navigate = useNavigate();
     const { user } = useGlobalStore();
+    const navLinks = usePermittedLinks(user);
 
     return (
         <div className={styles.root}>

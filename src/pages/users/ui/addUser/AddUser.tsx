@@ -11,67 +11,76 @@ import {
     Input,
     Label,
     Option,
-    Toast,
-    ToastTitle,
-    Toaster,
-    useToastController,
 } from "@fluentui/react-components";
 import {
-    Dismiss24Regular,
-    Eye20Filled,
-    Eye20Regular,
+    Dismiss24Regular
 } from "@fluentui/react-icons";
 import { useFormik } from "formik";
 import React, {
     useEffect,
     useId,
-    useState,
     type Dispatch,
     type SetStateAction,
 } from "react";
 import { validationSchema } from "./validation";
-import { useAddUsertyles } from "./styles";
 import { drawer_background, drawer_footer, input_container } from "../../../../shared/const/styles";
-import { roles } from "../../../../shared/data/roles";
-import type { IRole } from "../../../../shared/types/role";
+import type { Role } from "../../../../shared/types/role";
+import { apiUrl, request } from "@/shared/api/api.config";
+import useSWR from "swr";
 
 interface IAddUser {
     showDrawer: boolean;
     setShowDrawer: Dispatch<SetStateAction<boolean>>;
 }
 
+interface IRoles {
+    Code: Role;
+    CreatedAt: string;
+    DeletedAt: string | null;
+    Desc: string;
+    ID: number;
+    UpdatedAt: string;
+}
+
+const rolesFetcher = async () => {
+    try {
+        const roles = await request.get(apiUrl.roles);
+        return roles.data?.res;
+    } catch (e) {
+        throw e;
+    }
+}
+
 const AddUserDrawer = ({ showDrawer, setShowDrawer }: IAddUser) => {
     const dropdownId = useId();
-    const styles = useAddUsertyles();
-    const [roleName, setRoleName] = useState<string>("");
-    const [showPassword, setShowPassword] = useState(false);
 
+    const { data: roles } = useSWR<IRoles[]>("roles", rolesFetcher, { revalidateOnFocus: false });
 
     const formik = useFormik({
         initialValues: {
+            username: "",
+            name: "",
+            surname: "",
+            patron: "",
+            inn: "",
+            role_id: roles?.[0]?.ID ?? "",
             email: "",
-            password: "",
-            phone: "",
-            role: "",
-            Username: "",
+            phone: ""
         },
         validationSchema: validationSchema,
-        onSubmit: (values, { resetForm, setSubmitting }) => {
-            // addUser({
-            //     email: formik.values.email,
-            //     fname: formik.values.fname,
-            //     login: formik.values.login,
-            //     password: formik.values.password,
-            //     phone: formik.values.phone.trim().replace(/\s+/g, "").replace("+", ""),
-            //     role: formik.values.role,
-            //     userDesc: formik.values.userDesc,
-            //     disabled: false,
-            // });
-        },
+        onSubmit: async (values, { resetForm, setSubmitting }) => {
+            try {
+                setSubmitting(true);
+                values.role_id = roles?.find((role) => role.Code === values.role_id)?.ID ?? 2;
+                await request.post(apiUrl.createUser, values);
+            } catch (e) {
+                console.error(e);
+            } finally {
+                resetForm();
+                setSubmitting(false);
+                setShowDrawer(false);
+            };
 
-        onReset(values, formikHelpers) {
-            formikHelpers.resetForm;
-            setShowDrawer(false);
         },
     });
 
@@ -79,7 +88,6 @@ const AddUserDrawer = ({ showDrawer, setShowDrawer }: IAddUser) => {
     useEffect(() => {
         if (!showDrawer) {
             formik.resetForm();
-            setRoleName("");
         }
     }, [showDrawer]);
 
@@ -113,7 +121,7 @@ const AddUserDrawer = ({ showDrawer, setShowDrawer }: IAddUser) => {
                                 <Label>Выберите роль</Label>
                                 <Field
                                     validationMessage={
-                                        formik.touched.role ? formik.errors.role : null
+                                        formik.touched.role_id ? formik.errors.role_id : null
                                     }
                                 >
                                     <Dropdown
@@ -121,21 +129,24 @@ const AddUserDrawer = ({ showDrawer, setShowDrawer }: IAddUser) => {
                                         placeholder="Выберите роль"
                                         size="medium"
                                         style={{ width: "100%" }}
-                                        value={roleName}
-                                        onOptionSelect={(event, option) => {
-                                            formik.setFieldValue("role", option.optionValue);
-                                            setRoleName(option.optionText);
+                                        value={String(formik.values.role_id)}
+                                        onOptionSelect={(_, option) => {
+                                            formik.setFieldValue("role_id", option.optionValue);
                                         }}
                                     >
-                                        {roles?.map((item: IRole) => (
-                                            <Option
-                                                text={item.name}
-                                                key={item.name}
-                                                value={String(item.name)}
-                                            >
-                                                {item.name}
-                                            </Option>
-                                        ))}
+
+                                        {roles?.map((item) => {
+                                            if (item.Code === "supervisor") return null;
+                                            return (
+                                                <Option
+                                                    text={item.Code}
+                                                    key={item.Code}
+                                                    value={String(item.Code)}
+                                                >
+                                                    {item.Code}
+                                                </Option>
+                                            )
+                                        })}
                                     </Dropdown>
                                 </Field>
                             </div>
@@ -165,44 +176,13 @@ const AddUserDrawer = ({ showDrawer, setShowDrawer }: IAddUser) => {
                                     <Input
                                         type="text"
                                         placeholder="username"
-                                        id="Username"
-                                        name="Username"
+                                        id="username"
+                                        name="username"
                                         onChange={formik.handleChange}
-                                        value={formik.values.Username}
+                                        value={formik.values.username}
                                         width={400}
                                         appearance="outline"
                                         onBlur={formik.handleBlur}
-                                    />
-                                </Field>
-                            </div>
-
-                            <div className={mergeStyles(input_container)}>
-                                <Label>Пароль</Label>
-                                <Field
-                                    validationMessage={
-                                        formik.touched.password ? formik.errors.password : null
-                                    }
-                                >
-                                    <Input
-                                        type={showPassword ? "text" : "password"}
-                                        placeholder="Пароль"
-                                        id="password"
-                                        name="password"
-                                        onChange={formik.handleChange}
-                                        value={formik.values.password}
-                                        width={400}
-                                        appearance="outline"
-                                        onBlur={formik.handleBlur}
-                                        contentAfter={
-                                            <div
-                                                className={styles.eye_icon}
-                                                onClick={() =>
-                                                    setShowPassword((prevState) => !prevState)
-                                                }
-                                            >
-                                                {showPassword ? <Eye20Filled /> : <Eye20Regular />}
-                                            </div>
-                                        }
                                     />
                                 </Field>
                             </div>
@@ -239,13 +219,15 @@ const AddUserDrawer = ({ showDrawer, setShowDrawer }: IAddUser) => {
                     </Button>
 
                     <Button
+                        disabled={!formik.values.username || formik.isSubmitting}
                         appearance="primary" form="add_user" type="submit"
                         style={{
                             background: 'var(--primery-green-color)',
-                            color: '#fff'
+                            color: '#fff',
+                            opacity: !formik.values.username || formik.isSubmitting ? "0.5" : "1"
                         }}
                     >
-                        Добавить
+                        {formik.isSubmitting ? "Добавление..." : "Добавить"}
                     </Button>
                 </DrawerFooter>
             </Drawer>

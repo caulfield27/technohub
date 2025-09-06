@@ -24,5 +24,8 @@ request.interceptors.request.use((config) => {
 export const apiUrl = {
     login: "/auth/log-in",
     getMe: "/user/me",
-    ping: "/ping"
+    ping: "/ping",
+    users: "/user/all",
+    createUser: "/user/create-user",
+    roles: "/user/roles"
 }
