@@ -39,4 +39,9 @@ export const navLinks: INavLinks[] = [
     icon: <Grid20Regular />,
     path: "/products",
   },
+  {
+    label: "Партии",
+    icon: <Grid20Regular />,
+    path: "/party",
+  },
 ];

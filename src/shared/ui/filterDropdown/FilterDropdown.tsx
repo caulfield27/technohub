@@ -7,7 +7,7 @@ import {
 } from "@fluentui/react-components";
 
 
-const FilterDropdown = ({ options, placeholder }: any) => {
+const FilterDropdown = ({ options, placeholder, value, onChange }: any) => {
     const styles = useFilterDropstyles();
     const dropdownId = useId("dropdown-default");
 
@@ -17,17 +17,21 @@ const FilterDropdown = ({ options, placeholder }: any) => {
                 id={dropdownId}
                 placeholder={placeholder}
                 className={styles.dropdown}
-                style={{
-                    // minWidth: '120px !important',
-                    // maxWidth: '120px !important',
-                    width: '520px !important',
-                }}
+                // style={{
+                //     // minWidth: '120px !important',
+                //     // maxWidth: '120px !important',
+                //     width: '520px !important',
+                // }}
+                value={value}
+                // onChange={onChange}
+                // onChange={(_, data) => onChange(data.optionValue)}
+                onOptionSelect={(_, data) => onChange(data.optionValue)}
             >
                 <Option>
                     {''}
                 </Option>
-                {options.map((option) => (
-                    <Option key={option.id}>
+                {options.map((option: any) => (
+                    <Option key={option.id} value={option.id}>
                         {option.value}
                     </Option>
                 ))}

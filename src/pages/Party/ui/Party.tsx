@@ -1,14 +1,14 @@
-import React from 'react'
 import { usePartyStyles } from './styles'
-import { Button, Input, TableCell, TableHeaderCell, Title2 } from '@fluentui/react-components';
+import { Button, Input, Title2 } from '@fluentui/react-components';
 import { Add12Regular, Search16Regular } from '@fluentui/react-icons';
 import FilterDropdown from '../../../shared/ui/filterDropdown/FilterDropdown';
-import TableNewComponent from '../../../shared/ui/tableNewComponent/TableNewComponent';
-import TableHeaderNewComponent from '../../../shared/ui/tableNewComponent/TableHeaderNewComponent';
-import TableHeaderCellComponent from '../../../shared/ui/tableNewComponent/TableHeaderCellComponent';
-import TableBodyNewComponent from '../../../shared/ui/tableNewComponent/TableBodyNewComponent';
-import TableRowNewComponent from '../../../shared/ui/tableNewComponent/TableRowNewComponent';
+import Table from '@/shared/ui/table/Table';
 import { party } from '../api/data';
+import TableHeader from '@/shared/ui/table/TableHeader';
+import TableHeaderCell from '@/shared/ui/table/TableHeaderCell';
+import TableRow from '@/shared/ui/table/TableRow';
+import TableCell from '@/shared/ui/table/TableCell';
+import TableBody from '@/shared/ui/table/TableBody';
 
 const categories = [
     { id: 1, value: "Бытовая техника" },
@@ -29,9 +29,9 @@ const Party = () => {
 
     return (
         <>
-            <div className={styles.page_title}>
+            {/* <div className={styles.page_title}>
                 <Title2>Партии</Title2>
-            </div>
+            </div> */}
             <div className={styles.filter_container}>
                 <div>
                     <Input
@@ -105,26 +105,26 @@ const Party = () => {
                     />
                 </div>
             </div>
-            <TableNewComponent>
-                <TableHeaderNewComponent>
-                    <TableHeaderCellComponent>Номер</TableHeaderCellComponent>
+            <Table>
+                <TableHeader>
+                    <TableHeaderCell>Номер</TableHeaderCell>
                     <TableHeaderCell>Поставщик</TableHeaderCell>
                     <TableHeaderCell>Оператор</TableHeaderCell>
                     <TableHeaderCell>Себестоимость</TableHeaderCell>
                     <TableHeaderCell>Дата</TableHeaderCell>
-                </TableHeaderNewComponent>
-                <TableBodyNewComponent>
+                </TableHeader>
+                <TableBody>
                     {party?.map((user) => (
-                        <TableRowNewComponent key={user.id} style={{ padding: '10px' }}>
+                        <TableRow key={user.id} style={{ padding: '10px' }}>
                             <TableCell>{user.Num}</TableCell>
                             <TableCell>{user.provider}</TableCell>
                             <TableCell>{user.username}</TableCell>
                             <TableCell>{user.cost}</TableCell>
                             <TableCell>{user.date}</TableCell>
-                        </TableRowNewComponent>
+                        </TableRow>
                     ))}
-                </TableBodyNewComponent>
-            </TableNewComponent>
+                </TableBody>
+            </Table>
 
         </>
     )

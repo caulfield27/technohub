@@ -1,5 +1,5 @@
 export interface IProduct {
-    id: number;
+    ID: number;
     Code: string;
     Name: string;
     Desc: string;
@@ -12,4 +12,9 @@ export interface IProduct {
     BatchId: number;
     WarehouseId: number;
     choosed?: boolean;
+    QuantityClient?: number;
+    CreatedAt: string;
+    UpdatedAt: string;
+    DeletedAt: string | null;
+    ExpirationDate: string | null;
 }

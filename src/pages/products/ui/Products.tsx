@@ -1,16 +1,21 @@
-import { Button, Input, Label, TableCell, TableHeaderCell, TableSelectionCell, Title2 } from "@fluentui/react-components";
+import { Button, Input, Label, TableSelectionCell, Title2 } from "@fluentui/react-components";
 import { useProductstyles } from "./styles";
 import { Add12Regular, Search16Regular } from "@fluentui/react-icons";
-import TableNewComponent from "../../../shared/ui/tableNewComponent/TableNewComponent";
-import TableHeaderNewComponent from "../../../shared/ui/tableNewComponent/TableHeaderNewComponent";
-import TableHeaderCellComponent from "../../../shared/ui/tableNewComponent/TableHeaderCellComponent";
-import TableBodyNewComponent from "../../../shared/ui/tableNewComponent/TableBodyNewComponent";
-import TableRowNewComponent from "../../../shared/ui/tableNewComponent/TableRowNewComponent";
 import { products } from "../api/data";
 import FilterDropdown from "../../../shared/ui/filterDropdown/FilterDropdown";
 import { useProductsStore } from "../store/products.store";
 import type { IProduct } from "../../../shared/types/products";
 import { useEffect, useState } from "react";
+import Table from "@/shared/ui/table/Table";
+import TableHeader from "@/shared/ui/table/TableHeader";
+import TableHeaderCell from "@/shared/ui/table/TableHeaderCell";
+import TableBody from "@/shared/ui/table/TableBody";
+import TableRow from "@/shared/ui/table/TableRow";
+import TableCell from "@/shared/ui/table/TableCell";
+import AddRequestClient from "./AddrequestClient/AddRequestClient";
+import useSWR from "swr";
+import { apiUrl } from "@/shared/api/api.config";
+import { getProducts } from "../api";
 
 const categories = [
     { id: 1, value: "Бытовая техника" },
@@ -28,37 +33,58 @@ const party = [
 
 const user = {
     name: 'Said',
-    role: 'client',
-    // role: 'supervizor',
+    // role: 'client',
+    role: 'supervizor',
 }
 
 const Products = () => {
     const styles = useProductstyles();
-    const filtredProducts = products.map((item) => ({ ...item, choosed: false }))
-    const [productsItem, setProductsItem] = useState<IProduct[] | null>(filtredProducts)
-    const isDisable = !productsItem?.some((item) => item.choosed)
-    const [isDis, setIsDis] = useState(isDisable)
+    const [filters, setFilters] = useState({
+        batch_id: '',
+        category_id: '',
+        warehouse_id: '',
+        start_price: '',
+        finish_price: ''
+    })
 
-    // const { choosedproducts, setChoosedProducs } = useProductsStore()
+    // const { data: users, isLoading } = useSwr(${ apiUrl.users } ? role_id = ${ roleId } & search=${ debouncedValue }, getUsers, { revalidateOnFocus: false });
+    const { data: productAll, isLoading } = useSWR(`${apiUrl.products}?batch_id=${filters.batch_id}&category_id=${filters.category_id}&warehouse_id=${filters.warehouse_id}&start_price=${filters.start_price}&finish_price=${filters.finish_price}`, getProducts);
+    const { products, setChoosedProducs, setUpdateProducs } = useProductsStore()
+
+    const isDisable = !products?.some((item) => item.choosed)
+
+
+    //add request modal
+    const [showDrawer, setShowDrawer] = useState(false)
+
+    const toggleDrawer = () => {
+        setShowDrawer(prev => !prev)
+    }
+
+
+    console.log(filters);
+
 
     const handleProduct = (product: IProduct) => {
-        const choosedProducts = productsItem?.map((item) => {
-            if (product?.id == item?.id) {
-                return ({ ...item, choosed: !item.choosed })
-            } else {
-                return item
-            }
-        })
-        setProductsItem(choosedProducts ?? [])
-        setIsDis(!choosedProducts?.some((item) => item.choosed))
+        // setChoosedProducs(product)
+        setUpdateProducs(product.ID)
     }
+
+
+
+    useEffect(() => {
+        if (productAll) {
+            const filtredProducts = productAll?.map((item) => ({ ...item, choosed: false, QuantityClient: item.Quantity }))
+            setChoosedProducs(filtredProducts ?? [])
+        }
+    }, [productAll])
 
 
     return (
         <>
-            <div className={styles.page_title}>
+            {/* <div className={styles.page_title}>
                 <Title2>Продукты</Title2>
-            </div>
+            </div> */}
             <div className={styles.filter_container}>
                 <div>
                     <Input
@@ -75,7 +101,7 @@ const Products = () => {
                         style={{ ['--colorStrokeFocus2' as any]: 'green', ['--colorStrokeAccessible' as any]: 'rgba(0,0,0,0.35)' }}
                     />
                 </div>
-                {user.role != 'client' && <Button
+                {/* {user.role != 'client' && <Button
                     className={styles.add_btn}
                     icon={<Add12Regular />}
                     appearance="primary"
@@ -86,17 +112,17 @@ const Products = () => {
                     }}
                 >
                     Добавить
-                </Button>}
+                </Button>} */}
                 {user.role == 'client' && <Button
                     className={styles.add_btn}
                     appearance="primary"
-                    // onClick={toggleDrawer}
+                    onClick={toggleDrawer}
                     style={{
                         background: 'var(--primery-green-color)',
                         color: '#fff',
-                        opacity: isDis ? '.5' : '1'
+                        opacity: isDisable ? '.5' : '1'
                     }}
-                    disabled={isDis}
+                    disabled={isDisable}
                 >
                     Создать заявку
                 </Button>}
@@ -113,23 +139,19 @@ const Products = () => {
                             placeholder="от"
                             id="search"
                             name="search"
-                            // value={searchMenuInput}
-                            // onChange={handleMenuSearch}
+                            value={filters.start_price}
+                            onChange={(event) => setFilters(prev => ({ ...prev, start_price: event.target.value }))}
                             className={styles.input_price}
                         />
                     </div>
-                    <p style={{
-                        fontWeight: 'bolder',
-                        color: '#888'
-                    }}>-</p>
                     <div className="">
                         <Input
                             type="text"
                             placeholder="до"
                             id="search"
                             name="search"
-                            // value={searchMenuInput}
-                            // onChange={handleMenuSearch}
+                            value={filters.finish_price}
+                            onChange={(event) => setFilters(prev => ({ ...prev, finish_price: event.target.value }))}
                             className={styles.input_price}
                         />
                     </div>
@@ -138,15 +160,24 @@ const Products = () => {
                     <FilterDropdown
                         options={categories}
                         placeholder="Категории"
+                        value={filters.category_id}
+                        // onChange={(_: any, data: any) => setFilters(prev => ({ ...prev, category_id: data.optionValue }))}
+                        onChange={(value) =>
+                            setFilters(prev => ({ ...prev, category_id: value }))
+                        }
                     />
                     {user.role != 'client' && <FilterDropdown
                         options={party}
                         placeholder="Партия"
+                        value={filters.batch_id}
+                        onChange={(value) =>
+                            setFilters(prev => ({ ...prev, batch_id: value }))
+                        }
                     />}
                 </div>
             </div>
-            <TableNewComponent >
-                <TableHeaderNewComponent>
+            <Table>
+                <TableHeader>
                     {user.role == 'client' && <TableSelectionCell
                         // checked={
                         //     allRowsSelected ? true : someRowsSelected ? "mixed" : false
@@ -155,7 +186,7 @@ const Products = () => {
                         // onKeyDown={toggleAllKeydown}
                         checkboxIndicator={{ "aria-label": "Select all rows " }}
                     />}
-                    <TableHeaderCellComponent>Название</TableHeaderCellComponent>
+                    <TableHeaderCell>Название</TableHeaderCell>
                     <TableHeaderCell>Бренд</TableHeaderCell>
                     {user.role != 'client' && <TableHeaderCell>Себес-ть</TableHeaderCell>}
                     <TableHeaderCell>Цена</TableHeaderCell>
@@ -164,11 +195,11 @@ const Products = () => {
                     <TableHeaderCell>Категория</TableHeaderCell>
                     {user.role != 'client' && <TableHeaderCell>Номер партии</TableHeaderCell>}
                     {user.role != 'client' && <TableHeaderCell>Склад</TableHeaderCell>}
-                </TableHeaderNewComponent>
-                <TableBodyNewComponent>
-                    {productsItem?.map((product) => (
-                        <TableRowNewComponent
-                            key={product.id}
+                </TableHeader>
+                <TableBody loading={isLoading}>
+                    {products?.map((product) => (
+                        <TableRow
+                            key={product.ID}
                             style={{ padding: '10px' }}
                             onClick={() => handleProduct(product)}
                         >
@@ -185,11 +216,15 @@ const Products = () => {
                             <TableCell>{product.CategoryId}</TableCell>
                             {user.role != 'client' && <TableCell>{product.BatchId}</TableCell>}
                             {user.role != 'client' && <TableCell>{product.WarehouseId}</TableCell>}
-                        </TableRowNewComponent>
+                        </TableRow>
                     ))}
-                </TableBodyNewComponent>
-            </TableNewComponent>
-
+                </TableBody>
+            </Table>
+            <AddRequestClient
+                showDrawer={showDrawer}
+                setShowDrawer={setShowDrawer}
+                products={products?.filter((item) => item.choosed)}
+            />
         </>
     )
 }
