@@ -50,14 +50,6 @@ export const router = createBrowserRouter([
         </PrivateRoutes>
       },
       {
-        path: "/orders",
-        element: <PrivateRoutes>
-          <Suspense fallback={<h1>loading...</h1>}>
-            <Orders />
-          </Suspense>
-        </PrivateRoutes>
-      },
-      {
         path: "/products",
         element: <PrivateRoutes>
           <Suspense fallback={<h1>loading...</h1>}>

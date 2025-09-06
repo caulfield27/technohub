@@ -19,6 +19,7 @@ import {
 
 import { NavLink } from "react-router";
 import { navLinks } from "../../data/NavLinks";
+import { useGlobalStore } from "../../store/global.store";
 
 const drawerMargin = tokens.spacingVerticalM;
 
@@ -164,6 +165,7 @@ const DrawerMotion = createPresenceComponent(() => {
 
 export const Sidebar = (): React.ReactElement => {
     const styles = useStyles();
+    const { user } = useGlobalStore();
 
     return (
         <div className={styles.root}>
@@ -177,7 +179,7 @@ export const Sidebar = (): React.ReactElement => {
                 className={styles.nav}
             >
                 <NavDrawerHeader>
-                    <Title3 className={styles.title}>STORAGE</Title3>
+                    <Title3 className={styles.title}>Storage Admin</Title3>
                 </NavDrawerHeader>
                 <NavDivider />
                 <NavDrawerBody className={styles.body}>
@@ -196,13 +198,13 @@ export const Sidebar = (): React.ReactElement => {
                     </nav>
                 </NavDrawerBody>
                 <NavDrawerFooter className={styles.footerWrapper}>
-                    <div className={styles.userWrapper}>
+                    {user && <div className={styles.userWrapper}>
                         <Avatar />
                         <div className={styles.profileInfo}>
-                            <span className={styles.nameSpan}>Alisher</span>
-                            <span className={styles.roleSpan}>admin</span>
+                            <span className={styles.nameSpan}>{user.Username}</span>
+                            <span className={styles.roleSpan}>{user.Role.Code}</span>
                         </div>
-                    </div>
+                    </div>}
                 </NavDrawerFooter>
             </NavDrawer>
         </div>
