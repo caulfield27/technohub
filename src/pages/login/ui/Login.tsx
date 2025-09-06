@@ -9,63 +9,50 @@ import {
 import { Eye20Filled, Eye20Regular } from "@fluentui/react-icons";
 import { useFormik } from "formik";
 import { useEffect, useId, useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useNavigation } from "react-router";
 import { useLoginStyles } from "./styles";
 import { validationSchema } from "./validation";
+import { apiUrl, request } from "../../../shared/api/api.config";
 
 const Login = () => {
     const styles = useLoginStyles();
     const [toggleShowPassword, setToggleShowPassword] = useState(false);
-
     const navigate = useNavigate();
 
 
     const formik = useFormik({
         initialValues: {
-            username: "",
+            login: "",
             password: "",
         },
         validationSchema: validationSchema,
         onSubmit: async (values, { resetForm, setSubmitting }) => {
-            // try {
-            //     const response = await loginAuth({
-            //         username: values.username,
-            //         password: values.password,
-            //     }).unwrap();
+            setSubmitting(true);
+            try {
+                const response = await request.post(apiUrl.login, values);
+                const { access_token } = response.data?.res;
+                const { refresh_token } = response.data?.res;
 
-            //     if (response?.access_token) {
-            //         navigate("/statistic");
-
-            //         // if (response.permissions) {
-            //         //   const sortedPers = response.permissions.toSorted();
-            //         //   for (let i = 0; i < sortedPers.length; i++) {
-            //         //     for (let j = 0; j < routes.length; j++) {
-            //         //       if (sortedPers[i] === routes[j].id) {
-            //         //         navigate(routes[j].path);
-            //         //         return;
-            //         //       }
-            //         //     }
-            //         //   }
-            //         // }
-            //     } else {
-            //         navigate("/");
-            //     }
-            // } catch (err) {
-            //     // notify(err.data.message);
-            // }
-
-            // setSubmitting(false);
-            // resetForm();
-        },
+                if (access_token && refresh_token) {
+                    localStorage.setItem("access_token", access_token);
+                    localStorage.setItem("refresh_token", refresh_token);
+                    navigate("/");
+                }
+            } catch (err) {
+                console.log(err);
+            } finally {
+                resetForm();
+                setSubmitting(false);
+            };
+        }
     });
-    ;
 
     return (
         <div className={styles.page_container}>
             <div className={styles.login_content}>
                 <div className={styles.login_blok}>
                     <div className={styles.logoin_block_logo}>
-                        <Title3 className={styles.title}>Вход в Humopay</Title3>
+                        <Title3 className={styles.title}>Вход в Storage Admin</Title3>
                         <p className={styles.subtitle}>
                             Для входа вам необходимо ввести ваши логин и пароль{" "}
                         </p>
@@ -75,17 +62,17 @@ const Login = () => {
                             <div className={styles.login_forms_action}>
                                 <Field
                                     validationMessage={
-                                        formik.touched.username ? formik.errors.username : null
+                                        formik.touched.login ? formik.errors.login : null
                                     }
                                 >
                                     <Input
                                         className={styles.input_field}
                                         type="text"
                                         placeholder="Логин"
-                                        id="username"
-                                        name="username"
+                                        id="login"
+                                        name="login"
                                         onChange={formik.handleChange}
-                                        value={formik.values.username}
+                                        value={formik.values.login}
                                         width={400}
                                         appearance="outline"
                                         onBlur={formik.handleBlur}
@@ -125,7 +112,6 @@ const Login = () => {
                                         }
                                     />
                                 </Field>
-                                {/* <Link className={styles.forgot_pass}>Забыли пароль?</Link> */}
                             </div>
 
                             <Button
@@ -134,10 +120,9 @@ const Login = () => {
                                 disabled={
                                     formik.isSubmitting || !formik.isValid || formik.isSubmitting
                                 }
-                                style={{ width: "100%" }}
+                                className={styles.confirmBtn}
                             >
-                                {/* {isLoading ? <Spinner size="tiny" /> : "Далее"} */}
-                                Далее
+                                Войти
                             </Button>
                         </div>
                     </form>

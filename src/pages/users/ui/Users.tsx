@@ -1,16 +1,21 @@
-import { Button, Input, Tab, Table, TableBody, TableCell, TableHeader, TableHeaderCell, TableRow, TabList, Title2 } from "@fluentui/react-components";
+import {
+  Button,
+  Input,
+  Tab,
+  TableCell,
+  TableHeaderCell,
+  TabList,
+} from "@fluentui/react-components";
 import { userData } from "../api/data";
-import TableHeaderNewComponent from "../../../shared/ui/tableNewComponent/TableHeaderNewComponent";
-import TableNewComponent from "../../../shared/ui/tableNewComponent/TableNewComponent";
-import TableHeaderCellComponent from "../../../shared/ui/tableNewComponent/TableHeaderCellComponent";
-import TableBodyNewComponent from "../../../shared/ui/tableNewComponent/TableBodyNewComponent";
-import TableRowNewComponent from "../../../shared/ui/tableNewComponent/TableRowNewComponent";
-import TableCellComponent from "../../../shared/ui/tableNewComponent/TableCellComponent";
+import TableHeaderNewComponent from "@/shared/ui/table/TableHeader";
+import TableNewComponent from "@/shared/ui/table/Table";
+import TableHeaderCellComponent from "@/shared/ui/table/TableHeaderCell";
+import TableBodyNewComponent from "@/shared/ui/table/TableBody";
+import TableRowNewComponent from "@/shared/ui/table/TableRow";
 import { useUserstyles } from "./styles";
 import { Add12Regular, Search16Regular } from "@fluentui/react-icons";
 import AddUser from "./addUser/AddUser";
-import { useState } from "react";
-
+import { useState, type CSSProperties } from "react";
 
 export default function Users() {
   const styles = useUserstyles();
@@ -22,9 +27,6 @@ export default function Users() {
 
   return (
     <>
-      <div className={styles.page_title}>
-        <Title2>Пользователи</Title2>
-      </div>
       <div className={styles.filter_container}>
         <div>
           <Input
@@ -38,7 +40,12 @@ export default function Users() {
             className={styles.input_filed}
             autoComplete="off"
             autoFocus={true}
-            style={{ ['--colorStrokeFocus2' as any]: 'green', ['--colorStrokeAccessible' as any]: 'rgba(0,0,0,0.35)' }}
+            style={
+              {
+                ["--colorStrokeFocus2"]: "green",
+                ["--colorStrokeAccessible"]: "rgba(0,0,0,0.35)",
+              } as CSSProperties
+            }
           />
         </div>
         <Button
@@ -47,23 +54,22 @@ export default function Users() {
           appearance="primary"
           onClick={toggleDrawer}
           style={{
-            background: 'var(--primery-green-color)',
-            color: '#fff'
+            background: "var(--primery-green-color)",
+            color: "#fff",
           }}
         >
           Добавить
         </Button>
       </div>
       <div className={styles.tablist_container}>
-        <TabList
-          defaultSelectedValue={'tab1'}
-          className={styles.tablist}
-        >
-          <Tab defaultChecked value="tab1">Операторы</Tab>
+        <TabList defaultSelectedValue={"tab1"} className={styles.tablist}>
+          <Tab defaultChecked value="tab1">
+            Операторы
+          </Tab>
           <Tab value="tab2">Клиенты</Tab>
         </TabList>
       </div>
-      <TableNewComponent >
+      <TableNewComponent>
         <TableHeaderNewComponent>
           <TableHeaderCellComponent>ID</TableHeaderCellComponent>
           <TableHeaderCell>Username</TableHeaderCell>
@@ -75,7 +81,7 @@ export default function Users() {
         </TableHeaderNewComponent>
         <TableBodyNewComponent>
           {userData?.map((user) => (
-            <TableRowNewComponent key={user.ID} style={{ padding: '10px' }}>
+            <TableRowNewComponent key={user.ID} style={{ padding: "10px" }}>
               <TableCell>{user.ID}</TableCell>
               <TableCell>{user.Username}</TableCell>
               <TableCell>{user.Email}</TableCell>
@@ -87,10 +93,7 @@ export default function Users() {
           ))}
         </TableBodyNewComponent>
       </TableNewComponent>
-      <AddUser
-        showDrawer={showAddDrawer}
-        setShowDrawer={setShowAddDrawer}
-      />
+      <AddUser showDrawer={showAddDrawer} setShowDrawer={setShowAddDrawer} />
     </>
-  )
+  );
 }

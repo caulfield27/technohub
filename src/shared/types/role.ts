@@ -1,3 +1,5 @@
+export type Role = 'supervisor' | 'client' | 'operator'
+
 export interface IRole {
-    name: string
+    name: Role
 }

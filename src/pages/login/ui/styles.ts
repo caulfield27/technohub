@@ -56,6 +56,7 @@ export const useLoginStyles = makeStyles({
     },
     title: {
         margin: "4px 0",
+        color: "var(--primery-green-color)"
     },
 
     version: {
@@ -92,6 +93,11 @@ export const useLoginStyles = makeStyles({
         padding: "5px 10px",
         width: "100%",
         background: "transparent",
+        borderBottom: "2px solid var(--primery-green-color) !important",
+
+        // "& ::after": {
+        //     borderBottom: "2px solid var(--primery-green-color) !important"
+        // }
     },
     eye_icon: {
         width: "20px",
@@ -133,4 +139,9 @@ export const useLoginStyles = makeStyles({
         display: "flex",
         justifyContent: "center",
     },
+    confirmBtn: {
+        width: "100%",
+        backgroundColor: "var(--primery-green-color) !important",
+        color: "#fff"
+    }
 });

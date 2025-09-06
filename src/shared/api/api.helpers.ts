@@ -1,20 +1,15 @@
-import type { AxiosResponse } from "axios";
-import { request } from "./api.config";
-import { type SendRequestParams } from "./api.types";
+import { apiUrl, request } from "./api.config";
+import { useGlobalStore } from "../store/global.store";
+import type { User } from "../types/user";
 
-export async function sendRequest({method, url, data, headers} : SendRequestParams) {
-    try{
-        const apiConfig:SendRequestParams = {
-            method,
-            url,
-        };
-        if(data) apiConfig["data"] = data;
-        if(headers) apiConfig["headers"] = headers;
-        
-        const response: AxiosResponse<any> = await request(apiConfig);
-        return response;
-    }catch(err){
-        console.error("send request err:", err);
-        throw err;
+
+export async function getMe() {
+    try {
+        const { setUser } = useGlobalStore.getState();
+        const meResponse = await request.get(apiUrl.getMe);
+        const data: User = meResponse.data;
+        setUser(data);
+    } catch (e) {
+        console.error(e);
     }
 }

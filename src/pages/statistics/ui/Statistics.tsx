@@ -1,4 +1,3 @@
-import { Title2 } from "@fluentui/react-components";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,7 +9,7 @@ import {
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 } from "chart.js";
 import {
   Bar,
@@ -76,7 +75,6 @@ const Statistics = () => {
         alignItems: "flex-start",
       }}
     >
-      <Title2>Статистика</Title2>
       <Bar data={data} options={options} />
       <Line data={data} options={options} />
       <Pie data={data} options={options} />
