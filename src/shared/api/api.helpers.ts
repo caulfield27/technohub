@@ -4,11 +4,12 @@ import type { User } from "../types/user";
 
 
 export async function getMe() {
-    try{
-        const {setUser} = useGlobalStore.getState();
-        const meResponse: User = await request.get(apiUrl.getMe);
-        setUser(meResponse);
-    }catch(e){
+    try {
+        const { setUser } = useGlobalStore.getState();
+        const meResponse = await request.get(apiUrl.getMe);
+        const data: User = meResponse.data;
+        setUser(data);
+    } catch (e) {
         console.error(e);
     }
 }
