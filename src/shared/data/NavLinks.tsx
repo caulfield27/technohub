@@ -1,4 +1,4 @@
-import { People16Regular, Poll16Regular } from "@fluentui/react-icons"
+import { People16Regular, Poll16Regular, TableSimple16Regular, TaskListSquareLtr16Regular } from "@fluentui/react-icons"
 import type { ReactElement } from "react"
 
 export interface INavLinks{
@@ -7,7 +7,7 @@ export interface INavLinks{
     path: string
 }
 
-export const navLinks = [
+export const navLinks: INavLinks[] = [
     {
         label: "Статистика",
         icon: <Poll16Regular />,
@@ -17,5 +17,15 @@ export const navLinks = [
         label: "Пользователи",
         icon: <People16Regular/>,
         path: "/users"
+    },
+    {
+        label: "Склады",
+        icon: <TableSimple16Regular/>,
+        path: "/storages"
+    },
+    {
+        label: "Заказы",
+        icon: <TaskListSquareLtr16Regular/>,
+        path: "/orders"
     }
 ]

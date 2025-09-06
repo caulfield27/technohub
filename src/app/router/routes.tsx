@@ -7,6 +7,8 @@ import { Suspense } from "react";
 import { Statistics } from "../../pages/statistics";
 import { PrivateRoutes } from "../Providers/PrivateRoutes";
 import { Users } from "../../pages/users";
+import { Storage } from "../../pages/storage";
+import { Orders } from "../../pages/orders";
 
 
 export const router = createBrowserRouter([
@@ -27,6 +29,22 @@ export const router = createBrowserRouter([
         element: <PrivateRoutes>
           <Suspense fallback={<h1>loading...</h1>}>
             <Users />
+          </Suspense>
+        </PrivateRoutes>
+      },
+      {
+        path: "/storages",
+        element: <PrivateRoutes>
+          <Suspense fallback={<h1>loading...</h1>}>
+            <Storage />
+          </Suspense>
+        </PrivateRoutes>
+      },
+      {
+        path: "/orders",
+        element: <PrivateRoutes>
+          <Suspense fallback={<h1>loading...</h1>}>
+            <Orders />
           </Suspense>
         </PrivateRoutes>
       }
