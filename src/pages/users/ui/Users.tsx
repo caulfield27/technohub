@@ -1,144 +1,96 @@
+import { Button, Input, Tab, Table, TableBody, TableCell, TableHeader, TableHeaderCell, TableRow, TabList, Title2 } from "@fluentui/react-components";
+import { userData } from "../api/data";
+import TableHeaderNewComponent from "../../../shared/ui/tableNewComponent/TableHeaderNewComponent";
+import TableNewComponent from "../../../shared/ui/tableNewComponent/TableNewComponent";
+import TableHeaderCellComponent from "../../../shared/ui/tableNewComponent/TableHeaderCellComponent";
+import TableBodyNewComponent from "../../../shared/ui/tableNewComponent/TableBodyNewComponent";
+import TableRowNewComponent from "../../../shared/ui/tableNewComponent/TableRowNewComponent";
+import TableCellComponent from "../../../shared/ui/tableNewComponent/TableCellComponent";
+import { useUserstyles } from "./styles";
+import { Add12Regular, Search16Regular } from "@fluentui/react-icons";
+import AddUser from "./addUser/AddUser";
+import { useState } from "react";
 
 
-import {
-  FolderRegular,
-  EditRegular,
-  EditFilled,
-  OpenRegular,
-  DocumentRegular,
-  PeopleRegular,
-  DocumentPdfRegular,
-  VideoRegular,
-  MoreHorizontalRegular,
-  MoreHorizontalFilled,
-  bundleIcon,
-} from "@fluentui/react-icons";
-import {
-  TableBody,
-  TableCell,
-  TableRow,
-  Table,
-  TableHeader,
-  TableHeaderCell,
-  TableCellActions,
-  TableCellLayout,
-  type PresenceBadgeStatus,
-  Avatar,
-  Button,
-  Title1,
-} from "@fluentui/react-components";
+export default function Users() {
+  const styles = useUserstyles();
+  const [showAddDrawer, setShowAddDrawer] = useState(false);
 
-const EditIcon = bundleIcon(EditFilled, EditRegular);
-const MoreHorizontalIcon = bundleIcon(
-  MoreHorizontalFilled,
-  MoreHorizontalRegular
-);
+  const toggleDrawer = () => {
+    setShowAddDrawer((prev) => !prev);
+  };
 
-const items = [
-  {
-    file: { label: "Meeting notes", icon: <DocumentRegular /> },
-    author: { label: "Max Mustermann", status: "available" },
-    lastUpdated: { label: "7h ago", timestamp: 1 },
-    lastUpdate: {
-      label: "You edited this",
-      icon: <EditRegular />,
-    },
-  },
-  {
-    file: { label: "Thursday presentation", icon: <FolderRegular /> },
-    author: { label: "Erika Mustermann", status: "busy" },
-    lastUpdated: { label: "Yesterday at 1:45 PM", timestamp: 2 },
-    lastUpdate: {
-      label: "You recently opened this",
-      icon: <OpenRegular />,
-    },
-  },
-  {
-    file: { label: "Training recording", icon: <VideoRegular /> },
-    author: { label: "John Doe", status: "away" },
-    lastUpdated: { label: "Yesterday at 1:45 PM", timestamp: 2 },
-    lastUpdate: {
-      label: "You recently opened this",
-      icon: <OpenRegular />,
-    },
-  },
-  {
-    file: { label: "Purchase order", icon: <DocumentPdfRegular /> },
-    author: { label: "Jane Doe", status: "offline" },
-    lastUpdated: { label: "Tue at 9:30 AM", timestamp: 3 },
-    lastUpdate: {
-      label: "You shared this in a Teams chat",
-      icon: <PeopleRegular />,
-    },
-  },
-];
-
-const columns = [
-  { columnKey: "file", label: "File" },
-  { columnKey: "author", label: "Author" },
-  { columnKey: "lastUpdated", label: "Last updated" },
-  { columnKey: "lastUpdate", label: "Last update" },
-];
-
-const Users = () => {
-  return <div>
-    <Title1>Пользователи</Title1>
-    <Table  aria-label="Table with cell actions" style={{ minWidth: "500px", tableLayout: "unset", width: "100%" }}>
-      <TableHeader>
-        <TableRow>
-          {columns.map((column) => (
-            <TableHeaderCell key={column.columnKey}>
-              {column.label}
-            </TableHeaderCell>
+  return (
+    <>
+      <div className={styles.page_title}>
+        <Title2>Пользователи</Title2>
+      </div>
+      <div className={styles.filter_container}>
+        <div>
+          <Input
+            type="text"
+            placeholder="Поиск по наименованию"
+            id="search"
+            name="search"
+            contentBefore={<Search16Regular />}
+            // value={searchMenuInput}
+            // onChange={handleMenuSearch}
+            className={styles.input_filed}
+            autoComplete="off"
+            autoFocus={true}
+            style={{ ['--colorStrokeFocus2' as any]: 'green', ['--colorStrokeAccessible' as any]: 'rgba(0,0,0,0.35)' }}
+          />
+        </div>
+        <Button
+          className={styles.add_btn}
+          icon={<Add12Regular />}
+          appearance="primary"
+          onClick={toggleDrawer}
+          style={{
+            background: 'var(--primery-green-color)',
+            color: '#fff'
+          }}
+        >
+          Добавить
+        </Button>
+      </div>
+      <div className={styles.tablist_container}>
+        <TabList
+          defaultSelectedValue={'tab1'}
+          className={styles.tablist}
+        >
+          <Tab defaultChecked value="tab1">Операторы</Tab>
+          <Tab value="tab2">Клиенты</Tab>
+        </TabList>
+      </div>
+      <TableNewComponent >
+        <TableHeaderNewComponent>
+          <TableHeaderCellComponent>ID</TableHeaderCellComponent>
+          <TableHeaderCell>Username</TableHeaderCell>
+          <TableHeaderCell>Email</TableHeaderCell>
+          <TableHeaderCell>Phone</TableHeaderCell>
+          <TableHeaderCell>Role</TableHeaderCell>
+          <TableHeaderCell>CreatedAt</TableHeaderCell>
+          <TableHeaderCell>UpdatedAt</TableHeaderCell>
+        </TableHeaderNewComponent>
+        <TableBodyNewComponent>
+          {userData?.map((user) => (
+            <TableRowNewComponent key={user.ID} style={{ padding: '10px' }}>
+              <TableCell>{user.ID}</TableCell>
+              <TableCell>{user.Username}</TableCell>
+              <TableCell>{user.Email}</TableCell>
+              <TableCell>{user.Phone}</TableCell>
+              <TableCell>{user.Role}</TableCell>
+              <TableCell>{user.CreatedAt}</TableCell>
+              <TableCell>{user.UpdatedAt}</TableCell>
+            </TableRowNewComponent>
           ))}
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {items.map((item) => (
-          <TableRow key={item.file.label}>
-            <TableCell>
-              <TableCellLayout media={item.file.icon}>
-                {item.file.label}
-              </TableCellLayout>
-              <TableCellActions>
-                <Button
-                  icon={<EditIcon />}
-                  appearance="subtle"
-                  aria-label="Edit"
-                />
-                <Button
-                  icon={<MoreHorizontalIcon />}
-                  appearance="subtle"
-                  aria-label="More actions"
-                />
-              </TableCellActions>
-            </TableCell>
-            <TableCell>
-              <TableCellLayout
-                media={
-                  <Avatar
-                    aria-label={item.author.label}
-                    name={item.author.label}
-                    badge={{
-                      status: item.author.status as PresenceBadgeStatus,
-                    }}
-                  />
-                }
-              >
-                {item.author.label}
-              </TableCellLayout>
-            </TableCell>
-            <TableCell>{item.lastUpdated.label}</TableCell>
-            <TableCell>
-              <TableCellLayout media={item.lastUpdate.icon}>
-                {item.lastUpdate.label}
-              </TableCellLayout>
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-  </div>
-};
-
-export default Users;
+        </TableBodyNewComponent>
+      </TableNewComponent>
+      <AddUser
+        showDrawer={showAddDrawer}
+        setShowDrawer={setShowAddDrawer}
+      />
+    </>
+  )
+}

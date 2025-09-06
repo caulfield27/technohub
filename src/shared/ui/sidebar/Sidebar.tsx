@@ -32,7 +32,7 @@ const useStyles = makeStyles({
     },
     title: {
         fontWeight: "600",
-        color: "#06923E",
+        color: "var(--primery-green-color)",
         margin: "10px 0"
     },
     nav: {
@@ -88,13 +88,13 @@ const useStyles = makeStyles({
         transition: "0.3s linear",
         ":hover": {
             backgroundColor: "white",
-            color: "#06923E"
+            color: "var(--primery-green-color)"
         }
     },
     activeLink: {
         pointerEvents: "none",
         background: "white",
-        color: "#06923E !important"
+        color: "var(--primery-green-color) !important"
     },
     userWrapper: {
         width: "100%",
@@ -171,7 +171,7 @@ export const Sidebar = (): React.ReactElement => {
                 defaultSelectedValue="2"
                 defaultSelectedCategoryValue=""
                 open={true}
-                type="inline"
+                type={'inline'}
                 multiple={false}
                 surfaceMotion={{ children: (_, props) => <DrawerMotion {...props} /> }}
                 className={styles.nav}
@@ -197,7 +197,7 @@ export const Sidebar = (): React.ReactElement => {
                 </NavDrawerBody>
                 <NavDrawerFooter className={styles.footerWrapper}>
                     <div className={styles.userWrapper}>
-                        <Avatar/>
+                        <Avatar />
                         <div className={styles.profileInfo}>
                             <span className={styles.nameSpan}>Alisher</span>
                             <span className={styles.roleSpan}>admin</span>
