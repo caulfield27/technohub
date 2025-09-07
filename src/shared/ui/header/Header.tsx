@@ -7,7 +7,7 @@ const pathnames = {
   "/users": "Пользователи",
   "/products": "Список Товаров",
   "/orders": "Заказы",
-  "/statistics": "Статистика",
+  "/statistics": "Статистика Складов",
   "/party": "Партии",
 };
 

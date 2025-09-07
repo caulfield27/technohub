@@ -1,5 +1,5 @@
 import { usePartyStyles } from './styles'
-import { Button, Drawer, Input, TableCellActions, Title2 } from '@fluentui/react-components';
+import { Button, Input, TableCellActions } from '@fluentui/react-components';
 import { Add12Regular, Info16Regular, Search16Regular } from '@fluentui/react-icons';
 import Table from '@/shared/ui/table/Table';
 import TableHeader from '@/shared/ui/table/TableHeader';
@@ -14,6 +14,7 @@ import { format } from "date-fns";
 import { useState } from 'react';
 import useDebounce from '@/shared/hooks/useDebounce';
 import PartyInfo from './partyInfo/PartyInfo';
+import Drawer from './Drawer';
 
 
 const Party = () => {
@@ -64,7 +65,7 @@ const Party = () => {
                     className={styles.add_btn}
                     icon={<Add12Regular />}
                     appearance="primary"
-                     onClick={() => setOpenDrawer(true)}
+                    onClick={() => setOpenDrawer(true)}
                     style={{
                         background: 'var(--primery-green-color)',
                         color: '#fff'
@@ -136,16 +137,16 @@ const Party = () => {
                     ))}
                 </TableBody>
             </Table>
-            <PartyInfo
+            {showDrawer && <PartyInfo
                 showDrawer={showDrawer}
                 setShowDrawer={setShowDrawer}
                 partyId={partyId}
-            />
-            <Drawer
-        open={openDrawer}
-        toggle={(v?: boolean) => setOpenDrawer(v ?? false)}
-        onCreated={() => {}}
-      />
+            />}
+            {showDrawer && <Drawer
+                open={openDrawer}
+                toggle={(v?: boolean) => setOpenDrawer(v ?? false)}
+                onCreated={() => { }}
+            />}
         </>
     )
 }
