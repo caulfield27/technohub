@@ -19,10 +19,10 @@ import { useGlobalStore } from '@/shared/store/global.store';
 
 
 const Party = () => {
-    const styles = usePartyStyles();
-    const [showDrawer, setShowDrawer] = useState(false)
-    const [partyId, setPartyId] = useState(null)
-    const [openDrawer, setOpenDrawer] = useState(false);
+  const styles = usePartyStyles();
+  const [showDrawer, setShowDrawer] = useState(false);
+  const [partyId, setPartyId] = useState(null);
+  const [openDrawer, setOpenDrawer] = useState(false);
 
     const [filters, setFilters] = useState({
         price_from: '',

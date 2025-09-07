@@ -56,7 +56,7 @@ const Storage = () => {
           onChange={(e) => setSearchValue((e.target as HTMLInputElement).value)}
           placeholder="Поиск по складам"
         />
-        <Button icon={<Add20Regular />} onClick={() => toggleDrawer(true)}>
+        <Button appearance="primary" icon={<Add20Regular />} onClick={() => toggleDrawer(true)}>
           Добавить склад
         </Button>
       </div>

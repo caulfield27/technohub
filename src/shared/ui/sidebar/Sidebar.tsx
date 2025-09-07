@@ -16,15 +16,16 @@ import { DrawerMotion, useStyles } from "./styles";
 import { useGlobalStore } from "../../store/global.store";
 import { usePermittedLinks } from "@/shared/hooks/usePermittedLinks";
 import { SignOut20Regular } from "@fluentui/react-icons";
+import { SignOut20Regular } from "@fluentui/react-icons";
 import { logout } from "@/shared/api/api.config";
 import Logo from "../logo/Logo";
 
 export const Sidebar = (): React.ReactElement => {
-    const styles = useStyles();
-    const navigate = useNavigate();
-    const { user } = useGlobalStore();
-    const navLinks = usePermittedLinks(user);
-    const [open, setOpen] = React.useState(false);
+  const styles = useStyles();
+  const navigate = useNavigate();
+  const { user } = useGlobalStore();
+  const navLinks = usePermittedLinks(user);
+  const [open, setOpen] = React.useState(false);
 
     return (
         <div className={styles.root}>

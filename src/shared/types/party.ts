@@ -6,7 +6,7 @@ export interface IParty {
     sell_price: number;
     sold_percent: number;
     warehouse_id: number;
-    created_at: 'string';
+    created_at: string;
 }
 
 

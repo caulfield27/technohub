@@ -1,39 +1,34 @@
-import React, { useEffect, type Dispatch, type SetStateAction } from 'react'
+import { type Dispatch, type SetStateAction } from "react";
 import { mergeStyles } from "@fluentui/react";
 import {
-    Button,
-    Drawer,
-    DrawerBody,
-    DrawerFooter,
-    DrawerHeader,
-    DrawerHeaderTitle,
-    Field,
-    Input,
-    Label,
-    Title3,
+  Button,
+  Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerHeaderTitle,
 } from "@fluentui/react-components";
-import { drawer_background, drawer_footer, input_container } from "../../../../shared/const/styles";
-import { Dismiss24Regular } from '@fluentui/react-icons';
-import type { IProduct } from '@/shared/types/products';
-import Table from '@/shared/ui/table/Table';
-import TableHeader from '@/shared/ui/table/TableHeader';
-import TableHeaderCell from '@/shared/ui/table/TableHeaderCell';
-import TableBody from '@/shared/ui/table/TableBody';
-import TableRow from '@/shared/ui/table/TableRow';
-import TableCell from '@/shared/ui/table/TableCell';
-import useSWR from 'swr';
-import { apiUrl } from '@/shared/api/api.config';
-import { getProducts } from '@/pages/products/api';
-import { usePartyInfostyles } from './styles';
+import { drawer_background, drawer_footer } from "@/shared/const/styles";
+import { Dismiss24Regular } from "@fluentui/react-icons";
+import Table from "@/shared/ui/table/Table";
+import TableHeader from "@/shared/ui/table/TableHeader";
+import TableHeaderCell from "@/shared/ui/table/TableHeaderCell";
+import TableBody from "@/shared/ui/table/TableBody";
+import TableRow from "@/shared/ui/table/TableRow";
+import TableCell from "@/shared/ui/table/TableCell";
+import useSWR from "swr";
+import { apiUrl } from "@/shared/api/api.config";
+import { getProducts } from "@/pages/products/api";
+import { usePartyInfostyles } from "./styles";
 
 interface IAddRequest {
-    showDrawer: boolean;
-    setShowDrawer: Dispatch<SetStateAction<boolean>>;
-    partyId: number | null
+  showDrawer: boolean;
+  setShowDrawer: Dispatch<SetStateAction<boolean>>;
+  partyId: number | null;
 }
 
 const PartyInfo = ({ showDrawer, setShowDrawer, partyId }: IAddRequest) => {
-    const styles = usePartyInfostyles();
+  const styles = usePartyInfostyles();
 
     const { data: productAll, isLoading, mutate } = useSWR(`${apiUrl.products}`, getProducts);
 
@@ -120,4 +115,4 @@ const PartyInfo = ({ showDrawer, setShowDrawer, partyId }: IAddRequest) => {
     )
 }
 
-export default PartyInfo
+export default PartyInfo;
