@@ -91,7 +91,6 @@ const Products = () => {
     }
 
     const storage = storageAll;
-    console.log(storage);
 
     const getStorageName = (id) => {
         const name = storage?.filter((item) => item.ID == id)
