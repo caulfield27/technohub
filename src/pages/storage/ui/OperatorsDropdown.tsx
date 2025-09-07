@@ -19,9 +19,13 @@ export const ComplexOptions = ({ onSelectUser }: ComplexOptionsProps) => {
   const dropdownId = useId("dropdown");
   const styles = useDropdownStyles();
 
-  const { data: users } = useSWR(`${apiUrl.users}?role_id=&search=`, getUsers, {
-    revalidateOnFocus: false,
-  });
+  const { data: users } = useSWR(
+    `${apiUrl.users}?role_id=${2}&search=`,
+    getUsers,
+    {
+      revalidateOnFocus: false,
+    }
+  );
 
   return (
     <div className={styles.root}>
@@ -35,7 +39,7 @@ export const ComplexOptions = ({ onSelectUser }: ComplexOptionsProps) => {
         }}
       >
         {users?.map((u: IUserItem) => {
-          const display = u.Name ?? `${u.Surname ?? ""} ${u.Name ?? ""}`.trim();
+          const display = u?.Username;
           return (
             <Option key={u.ID} text={display} value={String(u.ID)}>
               <Persona

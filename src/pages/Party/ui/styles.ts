@@ -16,6 +16,11 @@ export const useDrawerStyles = makeStyles({
     gap: tokens.spacingVerticalM,
     padding: tokens.spacingVerticalS,
   },
+
+  categoryField: {
+    display: "flex",
+    flexDirection: "row",
+  },
   fieldRow: {
     display: "grid",
     gridTemplateColumns: "1fr 1fr",
@@ -50,7 +55,7 @@ export const useDrawerStyles = makeStyles({
   actions: {
     width: "100%",
     display: "flex",
-    justifyContent: "space-between",
+    justifyContent: "start",
     alignItems: "center",
     gap: tokens.spacingHorizontalM,
   },

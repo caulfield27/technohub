@@ -1,5 +1,5 @@
 import { usePartyStyles } from "./styles";
-import { Button, Input, Title2 } from "@fluentui/react-components";
+import { Button, Input } from "@fluentui/react-components";
 import { Add12Regular, Search16Regular } from "@fluentui/react-icons";
 import FilterDropdown from "../../../shared/ui/filterDropdown/FilterDropdown";
 import Table from "@/shared/ui/table/Table";
@@ -47,8 +47,8 @@ const Party = () => {
             autoComplete="off"
             autoFocus={true}
             style={{
-              ["--colorStrokeFocus2"]: "green",
-              ["--colorStrokeAccessible"]: "rgba(0,0,0,0.35)",
+              ["--colorStrokeFocus2" as string]: "green",
+              ["--colorStrokeAccessible" as string]: "rgba(0,0,0,0.35)",
             }}
           />
         </div>

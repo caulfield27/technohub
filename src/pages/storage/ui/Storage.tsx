@@ -28,7 +28,9 @@ const Storage = () => {
   const swrKey = `${apiUrl.warehouse}?search=${encodeURIComponent(
     debouncedSearch
   )}`;
-  const { data, isLoading } = useSWR(swrKey, getStorages);
+  const { data, isLoading } = useSWR(swrKey, getStorages, {
+    revalidateOnFocus: true,
+  });
   const restoreFocusTargetAttributes = useRestoreFocusTarget();
 
   const toggleDrawer = (arg?: boolean) => {
@@ -77,7 +79,7 @@ const Storage = () => {
                 <TableCell>{storage?.User?.Phone}</TableCell>
                 <TableCell>{formatDate(storage?.CreatedAt)}</TableCell>
                 <TableCell>{formatDate(storage?.UpdatedAt)}</TableCell>
-                <TableCell>{storage?.User?.Name}</TableCell>
+                <TableCell>{storage?.User?.Username}</TableCell>
               </TableRow>
             ))
           )}

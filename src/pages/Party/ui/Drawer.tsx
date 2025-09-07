@@ -17,7 +17,17 @@ import {
   Delete20Regular,
   Dismiss24Regular,
 } from "@fluentui/react-icons";
-import { createBatch } from "../api";
+import { createBatch, getCategories, createCategory } from "../api";
+import FilterDropdown from "@/shared/ui/filterDropdown/FilterDropdown";
+import {
+  Dialog,
+  DialogTrigger,
+  DialogSurface,
+  DialogBody,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+} from "@fluentui/react-components";
 import { useDrawerStyles } from "./styles";
 
 const initialProduct = {
@@ -30,6 +40,16 @@ const initialProduct = {
   warehouse_id: 1,
   category_id: 1,
 };
+
+interface ICategory {
+  ID: number;
+  CreatedAt: string;
+  UpdatedAt: string;
+  DeletedAt: null | string;
+  code: string;
+  name: string;
+  desc: string;
+}
 
 interface IDrawerProps {
   open: boolean;
@@ -51,6 +71,10 @@ const Drawer = ({ open, toggle, onCreated }: IDrawerProps) => {
     products: [initialProduct],
   });
 
+  const [categories, setCategories] = useState<ICategory[]>([]);
+  const [newCategory, setNewCategory] = useState("");
+  const [showCategoryDialog, setShowCategoryDialog] = useState(false);
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<string | null>(null);
 
@@ -63,13 +87,38 @@ const Drawer = ({ open, toggle, onCreated }: IDrawerProps) => {
       products: s.products.filter((_, i) => i !== idx),
     }));
 
-  const handleChangeProduct = (idx: number, key: string, value: any) =>
+  const handleChangeProduct = (
+    idx: number,
+    key: string,
+    value: string | number
+  ) =>
     setForm((s) => ({
       ...s,
       products: s.products.map((p, i) =>
         i === idx ? { ...p, [key]: value } : p
       ),
     }));
+
+  const loadCategories = async () => {
+    try {
+      const res = await getCategories();
+      const categories: ICategory[] = res?.categories;
+      setCategories(categories);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleCreateCategory = async () => {
+    if (!newCategory.trim()) return;
+    try {
+      await createCategory({ name: newCategory });
+      setNewCategory("");
+      await loadCategories();
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   const handleSubmit = async () => {
     setErrors(null);
@@ -118,6 +167,10 @@ const Drawer = ({ open, toggle, onCreated }: IDrawerProps) => {
     );
     setForm((s) => ({ ...s, total_price: total }));
   }, [form.products.length]);
+
+  useEffect(() => {
+    loadCategories();
+  }, []);
 
   return (
     <OverlayDrawer
@@ -239,6 +292,23 @@ const Drawer = ({ open, toggle, onCreated }: IDrawerProps) => {
                   }
                 />
               </Field>
+              <Field label="Категория">
+                <FilterDropdown
+                  options={
+                    categories?.map((c) => ({
+                      id: c.ID,
+                      value: c.name,
+                    })) ?? []
+                  }
+                  placeholder="Категория"
+                  value={`${
+                    categories?.find((c) => c.ID === p.category_id)?.name
+                  }`}
+                  onChange={(val: string) =>
+                    handleChangeProduct(idx, "category_id", Number(val))
+                  }
+                />
+              </Field>
               <Button
                 style={{ marginTop: "26px" }}
                 icon={<Delete20Regular />}
@@ -253,6 +323,43 @@ const Drawer = ({ open, toggle, onCreated }: IDrawerProps) => {
             <Button icon={<Add20Filled />} onClick={addProduct}>
               Добавить товар
             </Button>
+            <Dialog
+              open={showCategoryDialog}
+              onOpenChange={(_, { open }) => setShowCategoryDialog(open)}
+            >
+              <DialogTrigger disableButtonEnhancement>
+                <Button appearance="primary">Добавить категорию</Button>
+              </DialogTrigger>
+              <DialogSurface aria-describedby={undefined} aria-modal={false}>
+                <DialogBody>
+                  <DialogTitle>Добавить категорию</DialogTitle>
+                  <DialogContent>
+                    <Field label="Название категории">
+                      <Input
+                        value={newCategory}
+                        onChange={(e) =>
+                          setNewCategory((e.target as HTMLInputElement).value)
+                        }
+                      />
+                    </Field>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={() => setShowCategoryDialog(false)}>
+                      Отмена
+                    </Button>
+                    <Button
+                      appearance="primary"
+                      onClick={async () => {
+                        await handleCreateCategory();
+                        setShowCategoryDialog(false);
+                      }}
+                    >
+                      Создать
+                    </Button>
+                  </DialogActions>
+                </DialogBody>
+              </DialogSurface>
+            </Dialog>
           </div>
         </div>
         {errors && <div className={styles.error}>{errors}</div>}
