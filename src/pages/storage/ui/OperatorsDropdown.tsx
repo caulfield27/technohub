@@ -20,7 +20,7 @@ export const ComplexOptions = ({ onSelectUser }: ComplexOptionsProps) => {
   const styles = useDropdownStyles();
 
   const { data: users } = useSWR(
-    `${apiUrl.users}?role_id=${2}&search=`,
+    `${apiUrl.users}?role_id=${2}&is_free=${1}&search=`,
     getUsers,
     {
       revalidateOnFocus: false,
