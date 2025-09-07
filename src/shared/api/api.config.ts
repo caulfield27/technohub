@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getRefreshToken } from "@/shared/utils/getToken";
+import { getAccessToken, getRefreshToken } from "@/shared/utils/getToken";
 import { useGlobalStore } from "@/shared/store/global.store";
 
 const baseURL =
@@ -72,6 +72,13 @@ request.interceptors.response.use(
 );
 
 export function logout() {
+  request.get(apiUrl.logout, {
+    headers: {
+      "refresh-token": getRefreshToken() ?? "",
+      "token": getAccessToken() ?? ""
+    }
+  });
+
   localStorage.removeItem('access_token');
   localStorage.removeItem('refresh_token');
 
@@ -95,5 +102,6 @@ export const apiUrl = {
   batchNew: "/batch/new",
   orderProduct: "/product/order",
   party: "/batch/all",
-  stats: "/statistics/get-statistics"
+  stats: "/statistics/get-statistics",
+  logout: "/auth/log-out"
 }

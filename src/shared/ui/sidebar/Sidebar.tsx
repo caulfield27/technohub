@@ -8,18 +8,16 @@ import {
     NavDrawerBody,
     NavDrawerFooter,
     NavDrawerHeader,
-    Tab,
-    TabList,
     Title3,
-    tokens,
 } from "@fluentui/react-components";
 
 import { NavLink, useNavigate } from "react-router";
 import { DrawerMotion, useStyles } from "./styles";
 import { useGlobalStore } from "../../store/global.store";
 import { usePermittedLinks } from "@/shared/hooks/usePermittedLinks";
-import { QuestionCircle16Regular, Settings16Regular, SignOut20Regular } from "@fluentui/react-icons";
+import { SignOut20Regular } from "@fluentui/react-icons";
 import { logout } from "@/shared/api/api.config";
+import Logo from "../logo/Logo";
 
 export const Sidebar = (): React.ReactElement => {
     const styles = useStyles();
@@ -39,12 +37,11 @@ export const Sidebar = (): React.ReactElement => {
                 surfaceMotion={{ children: (_, props) => <DrawerMotion {...props} /> }}
                 className={styles.nav}
             >
-                <NavDrawerHeader
-                    onClick={() => {
+                <NavDrawerHeader className={styles.header}>
+                    <Logo onLogoClick={() => {
                         navigate("/");
-                    }}
-                >
-                    <Title3 className={styles.title}>STORAGE</Title3>
+                    }} />
+                    {/* <Title3 className={styles.title}>Storage admin</Title3> */}
                 </NavDrawerHeader>
                 <NavDivider />
                 <NavDrawerBody className={styles.body}>

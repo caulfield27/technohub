@@ -56,6 +56,14 @@ export const useStyles = makeStyles({
     bottom: '-6px'
   },
 
+  header: {
+    display: "flex",
+    flexDirection: "row",
+    gap: "10px",
+    justifyContent: 'flex-start',
+    alignItems: "center"
+  },
+
   navContainer: {
     display: "flex",
     flexDirection: "column",
