@@ -9,7 +9,6 @@ import {
   Input,
   Label,
   OverlayDrawer,
-  ToolbarButton,
   useId,
 } from "@fluentui/react-components";
 import {
@@ -67,6 +66,7 @@ const Drawer = ({ open, toggle, onCreated }: IDrawerProps) => {
     desc: "",
     supplier: "",
     total_price: 0,
+    Unit: "Штук",
     warehouse_id: 1,
     products: [initialProduct],
   });
@@ -263,6 +263,19 @@ const Drawer = ({ open, toggle, onCreated }: IDrawerProps) => {
                   }
                 />
               </Field>
+              <Field label="Ед. измерения">
+                <Input
+                  type="text"
+                  value={String(p.unit)}
+                  onChange={(e) =>
+                    handleChangeProduct(
+                      idx,
+                      "unit",
+                      (e.target as HTMLInputElement).value
+                    )
+                  }
+                />
+              </Field>
               <Field label="Цена покупки">
                 <Input
                   type="number"
@@ -289,6 +302,7 @@ const Drawer = ({ open, toggle, onCreated }: IDrawerProps) => {
                   }
                 />
               </Field>
+
               <Field label="Категория">
                 <FilterDropdown
                   options={
@@ -301,7 +315,7 @@ const Drawer = ({ open, toggle, onCreated }: IDrawerProps) => {
                   value={`${
                     categories?.find((c) => c.ID === p.category_id)?.name
                   }`}
-                  onChange={(val: string) =>
+                  onChange={(val?: string) =>
                     handleChangeProduct(idx, "category_id", Number(val))
                   }
                 />
