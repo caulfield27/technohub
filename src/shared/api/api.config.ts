@@ -72,8 +72,8 @@ request.interceptors.response.use(
 );
 
 export function logout() {
-  localStorage.removeItem('access_token');
-  localStorage.removeItem('refresh_token');
+  localStorage.removeItem("access_token");
+  localStorage.removeItem("refresh_token");
 
   window.location.href = "/";
 }
@@ -87,11 +87,12 @@ export const apiUrl = {
   createUser: "/user/create-user",
   roles: "/user/roles",
   products: "/product/all",
-   createWarehouse: "/warehouse/create",
+  createWarehouse: "/warehouse/create",
   getCategories: "/category/get-categories",
   createCategory: "/category/create-category",
+  orderUpdate: "/order/update",
   orders: "/order/get-orders",
   batchNew: "/batch/new",
   orderProduct: "/product/order",
   party: "/batch/all",
-}
+};
