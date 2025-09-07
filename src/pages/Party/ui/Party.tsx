@@ -33,9 +33,6 @@ const Party = () => {
 
   return (
     <>
-      {/* <div className={styles.page_title}>
-                <Title2>Партии</Title2>
-            </div> */}
       <div className={styles.filter_container}>
         <div>
           <Input
@@ -50,8 +47,8 @@ const Party = () => {
             autoComplete="off"
             autoFocus={true}
             style={{
-              ["--colorStrokeFocus2" as any]: "green",
-              ["--colorStrokeAccessible" as any]: "rgba(0,0,0,0.35)",
+              ["--colorStrokeFocus2"]: "green",
+              ["--colorStrokeAccessible"]: "rgba(0,0,0,0.35)",
             }}
           />
         </div>
@@ -137,9 +134,7 @@ const Party = () => {
       <Drawer
         open={openDrawer}
         toggle={(v?: boolean) => setOpenDrawer(v ?? false)}
-        onCreated={() => {
-          /* reload list if needed */
-        }}
+        onCreated={() => {}}
       />
     </>
   );

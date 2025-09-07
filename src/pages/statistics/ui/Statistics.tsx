@@ -7,106 +7,95 @@ import {
   ArcElement,
   PointElement,
   LineElement,
-  Title,
-  Tooltip,
-  Legend,
 } from "chart.js";
-import {
-  Bar,
-  Pie,
-  Line,
-  Doughnut,
-  PolarArea,
-  Radar,
-  Scatter,
-  Bubble,
-} from "react-chartjs-2";
+import { Bar, Pie, Line, Doughnut, PolarArea, Radar } from "react-chartjs-2";
 import { useStyles } from "./styles";
+import FilterDropdown from "@/shared/ui/filterDropdown/FilterDropdown";
+import { useState } from "react";
 
 ChartJS.register(
   CategoryScale,
   LinearScale,
-  RadialLinearScale, // radar and polar area
+  RadialLinearScale,
   BarElement,
   ArcElement,
   PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
+  LineElement
 );
+
+const chartOptionsList = [
+  { id: "bar", value: "Bar" },
+  { id: "line", value: "Line" },
+  { id: "pie", value: "Pie" },
+  { id: "doughnut", value: "Doughnut" },
+  { id: "polarArea", value: "PolarArea" },
+  { id: "radar", value: "Radar" },
+];
+
+const data = {
+  labels: ["January", "February", "March", "April", "May"],
+  datasets: [
+    {
+      label: "Sales",
+      data: [12, 19, 3, 5, 2],
+      backgroundColor: [
+        "rgba(75, 192, 192, 0.5)",
+        "rgba(255, 99, 132, 0.5)",
+        "rgba(255, 206, 86, 0.5)",
+        "rgba(54, 162, 235, 0.5)",
+        "rgba(153, 102, 255, 0.5)",
+      ],
+    },
+  ],
+};
+
+const options = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: "top" as const,
+    },
+    title: {
+      display: true,
+      text: "Monthly Sales",
+    },
+  },
+};
 
 const Statistics = () => {
   const styles = useStyles();
-  const data = {
-    labels: ["January", "February", "March", "April", "May"],
-    datasets: [
-      {
-        label: "Sales",
-        data: [12, 19, 3, 5, 2],
-        backgroundColor: [
-          "rgba(75, 192, 192, 0.5)",
-          "rgba(255, 99, 132, 0.5)",
-          "rgba(255, 206, 86, 0.5)",
-          "rgba(54, 162, 235, 0.5)",
-          "rgba(153, 102, 255, 0.5)",
-        ],
-      },
-    ],
-  };
+  const [chartType, setChartType] = useState<string>("bar");
 
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: "top" as const,
-      },
-      title: {
-        display: true,
-        text: "Monthly Sales",
-      },
-    },
+  const renderChart = () => {
+    switch (chartType) {
+      case "bar":
+        return <Bar data={data} options={options} />;
+      case "line":
+        return <Line data={data} options={options} />;
+      case "pie":
+        return <Pie data={data} options={options} />;
+      case "doughnut":
+        return <Doughnut data={data} options={options} />;
+      case "polarArea":
+        return <PolarArea data={data} options={options} />;
+      case "radar":
+        return <Radar data={data} options={options} />;
+      default:
+        return <Bar data={data} options={options} />;
+    }
   };
 
   return (
     <div className={styles.root}>
-      <Bar data={data} options={options} />
-      <Line data={data} options={options} />
-      <Pie data={data} options={options} />
-      <Doughnut data={data} options={options} />
-      <PolarArea data={data} options={options} />
-      <Radar data={data} options={options} />
-      {/* <Scatter
-        data={{
-          datasets: [
-            {
-              label: "Scatter Dataset",
-              data: [
-                { x: -10, y: 0 },
-                { x: 0, y: 10 },
-                { x: 10, y: 5 },
-              ],
-              backgroundColor: "rgba(255, 99, 132, 0.5)",
-            },
-          ],
-        }}
-        options={options}
-      />
-      <Bubble
-        data={{
-          datasets: [
-            {
-              label: "Bubble Dataset",
-              data: [
-                { x: 20, y: 30, r: 15 },
-                { x: 40, y: 10, r: 10 },
-              ],
-              backgroundColor: "rgba(54, 162, 235, 0.5)",
-            },
-          ],
-        }}
-        options={options}
-      /> */}
+      <div style={{ marginBottom: 16 }}>
+        <FilterDropdown
+          options={chartOptionsList}
+          placeholder="Тип графика"
+          value={chartType}
+          onChange={(val: string) => setChartType(val)}
+        />
+      </div>
+      {renderChart()}
     </div>
   );
 };
