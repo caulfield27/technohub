@@ -26,12 +26,14 @@ const Party = () => {
 
     const [filters, setFilters] = useState({
         price_from: '',
-        price_to: ''
+        price_to: '',
+        search: ''
     })
     const debounceFromPrice = useDebounce(filters.price_from, 750)
     const debounceToPrice = useDebounce(filters.price_to, 750)
+    const debounceToSearch = useDebounce(filters.search, 750)
 
-    const { data: partyAll, isLoading, mutate } = useSWR(`${apiUrl.party}?price_from=${debounceFromPrice}&price_to=${debounceToPrice}`, getParty,
+    const { data: partyAll, isLoading, mutate } = useSWR(`${apiUrl.party}?price_from=${debounceFromPrice}&price_to=${debounceToPrice}&search=${debounceToSearch}`, getParty,
         // { revalidateOnFocus: false }
     );
 
@@ -41,28 +43,14 @@ const Party = () => {
         setShowDrawer(prev => !prev);
         setPartyId(partyId)
     }
-    
+
     return (
         <>
             {/* <div className={styles.page_title}>
                 <Title2>Партии</Title2>
             </div> */}
-            <div className={styles.filter_container}>
-                <div>
-                    <Input
-                        type="text"
-                        placeholder="Поиск"
-                        id="search"
-                        name="search"
-                        contentBefore={<Search16Regular />}
-                        // value={searchMenuInput}
-                        // onChange={handleMenuSearch}
-                        className={styles.input_filed}
-                        autoComplete="off"
-                        autoFocus={true}
-                        style={{ ['--colorStrokeFocus2' as any]: 'green', ['--colorStrokeAccessible' as any]: 'rgba(0,0,0,0.35)' }}
-                    />
-                </div>
+            {/* <div className={styles.filter_container}>
+                
                 <Button
                     className={styles.add_btn}
                     icon={<Add12Regular />}
@@ -75,7 +63,7 @@ const Party = () => {
                 >
                     Добавить
                 </Button>
-            </div>
+            </div> */}
             <div className={styles.filters}>
                 <div className={styles.filter_price}>
                     <p style={{
@@ -104,6 +92,20 @@ const Party = () => {
                             className={styles.input_price}
                         />
                     </div>
+                </div>
+                <div className="">
+                    <Button
+                    className={styles.add_btn}
+                    icon={<Add12Regular />}
+                    appearance="primary"
+                    onClick={() => setOpenDrawer(true)}
+                    style={{
+                        background: 'var(--primery-green-color)',
+                        color: '#fff'
+                    }}
+                >
+                    Добавить
+                </Button>
                 </div>
             </div>
             <Table>

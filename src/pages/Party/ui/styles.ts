@@ -100,6 +100,7 @@ export const usePartyStyles = makeStyles({
     marginBottom: "21px",
     display: "flex",
     alignItems: "center",
+    justifyContent: 'space-between',
     gap: "50px",
   },
   filter_price: {
