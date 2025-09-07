@@ -1,6 +1,7 @@
 :root {
   --sidebar-width: 300px;
-  --primery-green-color: #06923E;
+  --primery-green-color: #06923e;
+  --primery-green-color-hover: #186436;
 }
 
 * {

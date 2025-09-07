@@ -172,15 +172,6 @@ const Drawer = ({ open, toggle, onCreated }: IDrawerProps) => {
   };
 
   useEffect(() => {
-    const total = form.products.reduce(
-      (s: number, it: any) =>
-        s + (Number(it.buy_price) || 0) * (Number(it.quantity) || 0),
-      0
-    );
-    setForm((s) => ({ ...s, total_price: total }));
-  }, [form.products.length]);
-
-  useEffect(() => {
     loadCategories();
   }, []);
 
@@ -382,7 +373,6 @@ const Drawer = ({ open, toggle, onCreated }: IDrawerProps) => {
         >
           {isSubmitting ? "Сохраняем..." : "Добавить партию"}
         </Button>
-        <ToolbarButton>Итоговая цена: {form.total_price} c</ToolbarButton>
       </DrawerFooter>
     </OverlayDrawer>
   );
