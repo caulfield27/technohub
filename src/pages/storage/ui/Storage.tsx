@@ -28,7 +28,7 @@ const Storage = () => {
   const swrKey = `${apiUrl.warehouse}?search=${encodeURIComponent(
     debouncedSearch
   )}`;
-  const { data, isLoading } = useSWR(swrKey, getStorages, {
+  const { data, isLoading, mutate } = useSWR(swrKey, getStorages, {
     revalidateOnFocus: true,
   });
   const restoreFocusTargetAttributes = useRestoreFocusTarget();
@@ -39,6 +39,10 @@ const Storage = () => {
     } else {
       setOpenDrawer((prev) => !prev);
     }
+  };
+
+  const handleDrawerSuccess = () => {
+    mutate();
   };
 
   return (
@@ -85,7 +89,11 @@ const Storage = () => {
           )}
         </TableBody>
       </Table>
-      <Drawer open={openDrawer} toggle={toggleDrawer} />
+      <Drawer
+        open={openDrawer}
+        toggle={toggleDrawer}
+        actionOnSuccess={handleDrawerSuccess}
+      />
     </>
   );
 };

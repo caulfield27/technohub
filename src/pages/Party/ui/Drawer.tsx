@@ -109,6 +109,17 @@ const Drawer = ({ open, toggle, onCreated }: IDrawerProps) => {
     }
   };
 
+  const handleReset = () => {
+    setErrors(null);
+    setIsSubmitting(false);
+    setForm((s) => ({
+      ...s,
+      desc: "",
+      supplier: "",
+      products: [initialProduct],
+    }));
+  };
+
   const handleCreateCategory = async () => {
     if (!newCategory.trim()) return;
     try {
@@ -153,6 +164,7 @@ const Drawer = ({ open, toggle, onCreated }: IDrawerProps) => {
       await createBatch(payload);
       if (onCreated) onCreated();
       toggle(false);
+      handleReset();
     } catch (e) {
       console.error(e);
       setErrors("Ошибка при создании партии");
@@ -185,14 +197,8 @@ const Drawer = ({ open, toggle, onCreated }: IDrawerProps) => {
           appearance="subtle"
           icon={<Dismiss24Regular />}
           onClick={() => {
-            setErrors(null);
-            setForm((s) => ({
-              ...s,
-              desc: "",
-              supplier: "",
-              products: [initialProduct],
-            }));
             toggle(false);
+            handleReset();
           }}
         />
         <DrawerHeaderTitle>Добавить партию</DrawerHeaderTitle>
@@ -310,12 +316,10 @@ const Drawer = ({ open, toggle, onCreated }: IDrawerProps) => {
                 />
               </Field>
               <Button
-                style={{ marginTop: "26px" }}
                 icon={<Delete20Regular />}
-                appearance="subtle"
                 onClick={() => removeProduct(idx)}
               >
-                Удалить
+                Удалить товар
               </Button>
             </div>
           ))}

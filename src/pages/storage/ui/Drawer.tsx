@@ -22,7 +22,6 @@ import { useDrawerStyles } from "./styles";
 import { ComplexOptions } from "./OperatorsDropdown";
 import { useState } from "react";
 import { createWarehouse } from "../api";
-import { mutate } from "swr";
 
 const initialForm = {
   name: "",
@@ -36,9 +35,10 @@ const initialForm = {
 interface IDrawerProps {
   open: boolean;
   toggle: (open?: boolean) => void;
+  actionOnSuccess?: () => void;
 }
 
-const Drawer = ({ open, toggle }: IDrawerProps) => {
+const Drawer = ({ open, toggle, actionOnSuccess }: IDrawerProps) => {
   const styles = useDrawerStyles();
   const restoreFocusSourceAttributes = useRestoreFocusSource();
   const [form, setForm] = useState(initialForm);
@@ -61,7 +61,7 @@ const Drawer = ({ open, toggle }: IDrawerProps) => {
         address: form.address,
         user_id: form.userId,
       });
-      mutate("storages");
+      actionOnSuccess && actionOnSuccess();
       toggle(false);
       resetForm();
     } catch (error) {
