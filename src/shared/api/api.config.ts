@@ -23,7 +23,7 @@ request.interceptors.response.use(
     if (request.status === 201) {
       setToast({
         show: true,
-        title: request?.data?.message || "Данные успешно добавлены",
+        title: request?.data?.res?.message ?? request.data?.message ?? "Данные успешно добавлены",
         options: {
           intent: "success",
         },
@@ -76,7 +76,7 @@ export function logout() {
   localStorage.removeItem('refresh_token');
 
   window.location.href = "/";
-  
+
 }
 
 export const apiUrl = {
@@ -88,7 +88,7 @@ export const apiUrl = {
   createUser: "/user/create-user",
   roles: "/user/roles",
   products: "/product/all",
-   createWarehouse: "/warehouse/create",
+  createWarehouse: "/warehouse/create",
   getCategories: "/category/get-categories",
   createCategory: "/category/create-category",
   orders: "/order/get-orders",
