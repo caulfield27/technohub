@@ -66,13 +66,15 @@ const Products = () => {
         setUpdateProducs(product.ID)
     }
 
+
     useEffect(() => {
         if (productAll) {
             const filtredProducts = productAll?.map((item) => ({ ...item, choosed: false, QuantityClient: item.Quantity }))
             setChoosedProducs(filtredProducts ?? [])
         }
     }, [productAll])
-    
+
+
     return (
         <>
             <div className={styles.filter_container}>
