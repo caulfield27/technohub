@@ -12,5 +12,5 @@ export const permittedRoutes: { [key: string]: string[] } = {
     "/storages",
     "/party",
   ],
-  operator: ["/products", "/statistics"],
+  operator: ["/products", "/statistics", "/party",],
 };

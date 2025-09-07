@@ -29,8 +29,7 @@ const EmptyState = ({ loading, notFound }: IEmptyStateProps) => {
           </div>
           <div className={styles.no_data_text}>
             <Body2>
-              По вашему запросу ничего не найдено. Пожалуйста, введите другое
-              значение в поиск
+              Ничего не найдено.
             </Body2>
           </div>
         </TableCell>
@@ -42,8 +41,7 @@ const EmptyState = ({ loading, notFound }: IEmptyStateProps) => {
             </div>
             <div className={styles.secondary_text}>
               <Body2>
-                Отсутствуют данные в таблице. Рекомендуется применить <br />{" "}
-                новые фильтры или проверить информацию позже
+                Отсутствуют данные в таблице.
               </Body2>
             </div>
           </div>

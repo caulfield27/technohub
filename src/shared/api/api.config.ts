@@ -76,6 +76,7 @@ export function logout() {
   localStorage.removeItem('refresh_token');
 
   window.location.href = "/";
+  
 }
 
 export const apiUrl = {

@@ -7,14 +7,9 @@ import {
     DrawerFooter,
     DrawerHeader,
     DrawerHeaderTitle,
-    Field,
-    Input,
-    Label,
-    Title3,
 } from "@fluentui/react-components";
-import { drawer_background, drawer_footer, input_container } from "../../../../shared/const/styles";
+import { drawer_background, drawer_footer } from "../../../../shared/const/styles";
 import { Dismiss24Regular } from '@fluentui/react-icons';
-import type { IProduct } from '@/shared/types/products';
 import Table from '@/shared/ui/table/Table';
 import TableHeader from '@/shared/ui/table/TableHeader';
 import TableHeaderCell from '@/shared/ui/table/TableHeaderCell';
@@ -24,22 +19,18 @@ import TableCell from '@/shared/ui/table/TableCell';
 import useSWR from 'swr';
 import { apiUrl } from '@/shared/api/api.config';
 import { getProducts } from '@/pages/products/api';
-import { usePartyInfostyles } from './styles';
+import { useOrderinfostyles } from './styles';
 
 interface IAddRequest {
     showDrawer: boolean;
     setShowDrawer: Dispatch<SetStateAction<boolean>>;
-    partyId: number | null
+    orders: []
 }
 
-const PartyInfo = ({ showDrawer, setShowDrawer, partyId }: IAddRequest) => {
-    const styles = usePartyInfostyles();
+const OrderInfo = ({ showDrawer, setShowDrawer, orders }: IAddRequest) => {
+    const styles = useOrderinfostyles();
+    console.log(orders);
 
-    const { data: productAll, isLoading, mutate } = useSWR(`${apiUrl.products}`, getProducts);
-
-    useEffect(() => {
-        mutate()
-    }, [])
 
     return (
         <div>
@@ -70,32 +61,20 @@ const PartyInfo = ({ showDrawer, setShowDrawer, partyId }: IAddRequest) => {
                         <Table>
                             <TableHeader>
                                 <TableHeaderCell>Название</TableHeaderCell>
-                                <TableHeaderCell>Бренд</TableHeaderCell>
-                                <TableHeaderCell>Себес-ть</TableHeaderCell>
                                 <TableHeaderCell>Цена</TableHeaderCell>
                                 <TableHeaderCell>Количество</TableHeaderCell>
-                                <TableHeaderCell>Остаток</TableHeaderCell>
                                 <TableHeaderCell>Ед-изм</TableHeaderCell>
-                                <TableHeaderCell>Категория</TableHeaderCell>
-                                <TableHeaderCell>Номер партии</TableHeaderCell>
-                                <TableHeaderCell>Склад</TableHeaderCell>
                             </TableHeader>
-                            <TableBody loading={isLoading}>
-                                {productAll?.filter((item) => item.BatchId == partyId)?.map((product) => (
+                            <TableBody>
+                                {orders?.orders.map((product) => (
                                     <TableRow
                                         key={product.ID}
                                         style={{ padding: '10px' }}
                                     >
-                                        <TableCell>{product.Name}</TableCell>
-                                        <TableCell>{product.Desc}</TableCell>
-                                        <TableCell>{product.BuyPrice}</TableCell>
-                                        <TableCell>{product.SellPrice}</TableCell>
+                                        <TableCell>{product.Product.Name}</TableCell>
+                                        <TableCell>{product.Product.SellPrice}</TableCell>
                                         <TableCell>{product.Quantity}</TableCell>
-                                        <TableCell>{(product.Quantity - product.Ordered)}</TableCell>
-                                        <TableCell>{product.Unit}</TableCell>
-                                        <TableCell>{product.CategoryId}</TableCell>
-                                        <TableCell>{product.BatchId}</TableCell>
-                                        <TableCell>{product.WarehouseId}</TableCell>
+                                        <TableCell>{product.Product.Unit}</TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
@@ -120,4 +99,4 @@ const PartyInfo = ({ showDrawer, setShowDrawer, partyId }: IAddRequest) => {
     )
 }
 
-export default PartyInfo
+export default OrderInfo

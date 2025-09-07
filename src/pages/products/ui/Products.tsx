@@ -66,13 +66,13 @@ const Products = () => {
         setUpdateProducs(product.ID)
     }
 
+
     useEffect(() => {
         if (productAll) {
             const filtredProducts = productAll?.map((item) => ({ ...item, choosed: false, QuantityClient: item.Quantity }))
             setChoosedProducs(filtredProducts ?? [])
         }
     }, [productAll])
-    console.log(user?.Role.Code);
 
 
     return (

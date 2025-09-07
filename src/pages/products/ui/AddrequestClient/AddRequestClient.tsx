@@ -38,12 +38,11 @@ const AddRequestClient = ({ showDrawer, setShowDrawer, productFrom }: IAddReques
 
     const handleorder = async () => {
         const orderObj = {
-            orders: [
+            orders:
                 productsChoosed.map((item) => ({
                     product_id: item.ID,
                     quantity: item.QuantityClient
                 }))
-            ]
         }
         try {
             if (orderObj) {

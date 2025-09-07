@@ -1,5 +1,5 @@
 import { usePartyStyles } from './styles'
-import { Button, Drawer, Input, TableCellActions, Title2 } from '@fluentui/react-components';
+import { Button, Input, TableCellActions, Title2 } from '@fluentui/react-components';
 import { Add12Regular, Info16Regular, Search16Regular } from '@fluentui/react-icons';
 import Table from '@/shared/ui/table/Table';
 import TableHeader from '@/shared/ui/table/TableHeader';
@@ -14,6 +14,8 @@ import { format } from "date-fns";
 import { useState } from 'react';
 import useDebounce from '@/shared/hooks/useDebounce';
 import PartyInfo from './partyInfo/PartyInfo';
+import Drawer from './Drawer';
+import { useGlobalStore } from '@/shared/store/global.store';
 
 
 const Party = () => {
@@ -29,14 +31,18 @@ const Party = () => {
     const debounceFromPrice = useDebounce(filters.price_from, 750)
     const debounceToPrice = useDebounce(filters.price_to, 750)
 
-    const { data: partyAll, isLoading } = useSWR(`${apiUrl.party}?price_from=${debounceFromPrice}&price_to=${debounceToPrice}`, getParty,
+    const { data: partyAll, isLoading, mutate } = useSWR(`${apiUrl.party}?price_from=${debounceFromPrice}&price_to=${debounceToPrice}`, getParty,
         // { revalidateOnFocus: false }
     );
+
+    const { user } = useGlobalStore()
+
     const handleModal = (partyId: any) => {
         setShowDrawer(prev => !prev);
         setPartyId(partyId)
     }
 
+    console.log(user?.Role.Code);
 
 
     return (
@@ -64,7 +70,7 @@ const Party = () => {
                     className={styles.add_btn}
                     icon={<Add12Regular />}
                     appearance="primary"
-                     onClick={() => setOpenDrawer(true)}
+                    onClick={() => setOpenDrawer(true)}
                     style={{
                         background: 'var(--primery-green-color)',
                         color: '#fff'
@@ -112,7 +118,7 @@ const Party = () => {
                     <TableHeaderCell>Дата</TableHeaderCell>
                 </TableHeader>
                 <TableBody loading={isLoading}>
-                    {partyAll?.map((user) => (
+                    {partyAll?.filter((item => user?.Role.Code == "supervisor" ? item : (item.operator_id == user.ID))).map((user) => (
                         <TableRow key={user.id} style={{ padding: '10px' }}>
                             <TableCell>{user.id}</TableCell>
                             <TableCell>{user.supplier}</TableCell>
@@ -142,10 +148,10 @@ const Party = () => {
                 partyId={partyId}
             />
             <Drawer
-        open={openDrawer}
-        toggle={(v?: boolean) => setOpenDrawer(v ?? false)}
-        onCreated={() => {}}
-      />
+                open={openDrawer}
+                toggle={(v?: boolean) => setOpenDrawer(v ?? false)}
+                onCreated={() => { mutate() }}
+            />
         </>
     )
 }
