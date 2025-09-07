@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { getToken } from "../../shared/utils/getToken";
+import { getAccessToken } from "../../shared/utils/getToken";
 import { Navigate } from "react-router";
 
 
@@ -8,10 +8,10 @@ interface Props {
 }
 
 export const GuestRoutes = ({ children }: Props) => {
-    const token = getToken();
+    const token = getAccessToken();
     if (token) {
         return <Navigate to="/" replace />
     };
-    
+
     return children;
 }

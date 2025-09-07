@@ -16,9 +16,11 @@ import AddRequestClient from "./AddrequestClient/AddRequestClient";
 import useSWR from "swr";
 import { apiUrl } from "@/shared/api/api.config";
 import { getProducts } from "../api";
+import useDebounce from "@/shared/hooks/useDebounce";
+import { useGlobalStore } from "@/shared/store/global.store";
 
 const categories = [
-    { id: 1, value: "Бытовая техника" },
+    { id: 1, value: "техника" },
     { id: 2, value: "Компютеры" },
     { id: 3, value: "Игрушки" },
     { id: 4, value: "Мебелб" },
@@ -31,12 +33,6 @@ const party = [
     { id: 4, value: 1 },
 ]
 
-const user = {
-    name: 'Said',
-    // role: 'client',
-    role: 'supervizor',
-}
-
 const Products = () => {
     const styles = useProductstyles();
     const [filters, setFilters] = useState({
@@ -47,9 +43,12 @@ const Products = () => {
         finish_price: ''
     })
 
-    // const { data: users, isLoading } = useSwr(${ apiUrl.users } ? role_id = ${ roleId } & search=${ debouncedValue }, getUsers, { revalidateOnFocus: false });
-    const { data: productAll, isLoading } = useSWR(`${apiUrl.products}?batch_id=${filters.batch_id}&category_id=${filters.category_id}&warehouse_id=${filters.warehouse_id}&start_price=${filters.start_price}&finish_price=${filters.finish_price}`, getProducts);
+    const debounceFromPrice = useDebounce(filters.start_price, 750)
+    const debounceToPrice = useDebounce(filters.finish_price, 750)
+
+    const { data: productAll, isLoading } = useSWR(`${apiUrl.products}?batch_id=${filters.batch_id}&category_id=${filters.category_id}&warehouse_id=${filters.warehouse_id}&start_price=${debounceFromPrice}&finish_price=${debounceToPrice}`, getProducts);
     const { products, setChoosedProducs, setUpdateProducs } = useProductsStore()
+    const { user } = useGlobalStore();
 
     const isDisable = !products?.some((item) => item.choosed)
 
@@ -62,15 +61,10 @@ const Products = () => {
     }
 
 
-    console.log(filters);
-
-
     const handleProduct = (product: IProduct) => {
         // setChoosedProducs(product)
         setUpdateProducs(product.ID)
     }
-
-
 
     useEffect(() => {
         if (productAll) {
@@ -78,13 +72,11 @@ const Products = () => {
             setChoosedProducs(filtredProducts ?? [])
         }
     }, [productAll])
+    console.log(user?.Role.Code);
 
 
     return (
         <>
-            {/* <div className={styles.page_title}>
-                <Title2>Продукты</Title2>
-            </div> */}
             <div className={styles.filter_container}>
                 <div>
                     <Input
@@ -101,19 +93,7 @@ const Products = () => {
                         style={{ ['--colorStrokeFocus2' as any]: 'green', ['--colorStrokeAccessible' as any]: 'rgba(0,0,0,0.35)' }}
                     />
                 </div>
-                {/* {user.role != 'client' && <Button
-                    className={styles.add_btn}
-                    icon={<Add12Regular />}
-                    appearance="primary"
-                    // onClick={toggleDrawer}
-                    style={{
-                        background: 'var(--primery-green-color)',
-                        color: '#fff'
-                    }}
-                >
-                    Добавить
-                </Button>} */}
-                {user.role == 'client' && <Button
+                {user?.Role.Code == 'client' && <Button
                     className={styles.add_btn}
                     appearance="primary"
                     onClick={toggleDrawer}
@@ -166,7 +146,7 @@ const Products = () => {
                             setFilters(prev => ({ ...prev, category_id: value }))
                         }
                     />
-                    {user.role != 'client' && <FilterDropdown
+                    {user?.Role.Code != 'client' && <FilterDropdown
                         options={party}
                         placeholder="Партия"
                         value={filters.batch_id}
@@ -178,23 +158,24 @@ const Products = () => {
             </div>
             <Table>
                 <TableHeader>
-                    {user.role == 'client' && <TableSelectionCell
+                    {/* {user?.Role.Code == 'client' && <TableSelectionCell
                         // checked={
                         //     allRowsSelected ? true : someRowsSelected ? "mixed" : false
                         // }
                         // onClick={toggleAllRows}
                         // onKeyDown={toggleAllKeydown}
                         checkboxIndicator={{ "aria-label": "Select all rows " }}
-                    />}
+                    />} */}
+                    {user?.Role.Code == 'client' && <TableHeaderCell></TableHeaderCell>}
                     <TableHeaderCell>Название</TableHeaderCell>
                     <TableHeaderCell>Бренд</TableHeaderCell>
-                    {user.role != 'client' && <TableHeaderCell>Себес-ть</TableHeaderCell>}
+                    {user?.Role.Code != 'client' && <TableHeaderCell>Себес-ть</TableHeaderCell>}
                     <TableHeaderCell>Цена</TableHeaderCell>
                     <TableHeaderCell>Количество</TableHeaderCell>
                     <TableHeaderCell>Ед-изм</TableHeaderCell>
                     <TableHeaderCell>Категория</TableHeaderCell>
-                    {user.role != 'client' && <TableHeaderCell>Номер партии</TableHeaderCell>}
-                    {user.role != 'client' && <TableHeaderCell>Склад</TableHeaderCell>}
+                    {user?.Role.Code != 'client' && <TableHeaderCell>Номер партии</TableHeaderCell>}
+                    {user?.Role.Code != 'client' && <TableHeaderCell>Склад</TableHeaderCell>}
                 </TableHeader>
                 <TableBody loading={isLoading}>
                     {products?.map((product) => (
@@ -203,19 +184,19 @@ const Products = () => {
                             style={{ padding: '10px' }}
                             onClick={() => handleProduct(product)}
                         >
-                            {user.role == 'client' && <TableSelectionCell
+                            {user?.Role.Code == 'client' && <TableSelectionCell
                                 checked={product.choosed}
                                 checkboxIndicator={{ "aria-label": "Select row" }}
                             />}
                             <TableCell>{product.Name}</TableCell>
                             <TableCell>{product.Desc}</TableCell>
-                            {user.role != 'client' && <TableCell>{product.BuyPrice}</TableCell>}
+                            {user?.Role.Code != 'client' && <TableCell>{product.BuyPrice}</TableCell>}
                             <TableCell>{product.SellPrice}</TableCell>
                             <TableCell>{product.Quantity}</TableCell>
                             <TableCell>{product.Unit}</TableCell>
                             <TableCell>{product.CategoryId}</TableCell>
-                            {user.role != 'client' && <TableCell>{product.BatchId}</TableCell>}
-                            {user.role != 'client' && <TableCell>{product.WarehouseId}</TableCell>}
+                            {user?.Role.Code != 'client' && <TableCell>{product.BatchId}</TableCell>}
+                            {user?.Role.Code != 'client' && <TableCell>{product.WarehouseId}</TableCell>}
                         </TableRow>
                     ))}
                 </TableBody>

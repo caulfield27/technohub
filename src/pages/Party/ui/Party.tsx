@@ -1,31 +1,42 @@
 import { usePartyStyles } from './styles'
-import { Button, Input, Title2 } from '@fluentui/react-components';
-import { Add12Regular, Search16Regular } from '@fluentui/react-icons';
-import FilterDropdown from '../../../shared/ui/filterDropdown/FilterDropdown';
+import { Button, Input, TableCellActions, Title2 } from '@fluentui/react-components';
+import { Add12Regular, Info16Regular, Search16Regular } from '@fluentui/react-icons';
 import Table from '@/shared/ui/table/Table';
-import { party } from '../api/data';
 import TableHeader from '@/shared/ui/table/TableHeader';
 import TableHeaderCell from '@/shared/ui/table/TableHeaderCell';
 import TableRow from '@/shared/ui/table/TableRow';
 import TableCell from '@/shared/ui/table/TableCell';
 import TableBody from '@/shared/ui/table/TableBody';
+import useSWR from 'swr';
+import { apiUrl } from '@/shared/api/api.config';
+import { getParty } from '../api';
+import { format } from "date-fns";
+import { useState } from 'react';
+import useDebounce from '@/shared/hooks/useDebounce';
+import PartyInfo from './partyInfo/PartyInfo';
 
-const categories = [
-    { id: 1, value: "Бытовая техника" },
-    { id: 2, value: "Компютеры" },
-    { id: 3, value: "Игрушки" },
-    { id: 4, value: "Мебелб" },
-]
-
-const partyFil = [
-    { id: 1, value: 1 },
-    { id: 2, value: 2 },
-    { id: 3, value: 3 },
-    { id: 4, value: 4 },
-]
 
 const Party = () => {
     const styles = usePartyStyles();
+    const [showDrawer, setShowDrawer] = useState(false)
+    const [partyId, setPartyId] = useState(null)
+
+    const [filters, setFilters] = useState({
+        price_from: '',
+        price_to: ''
+    })
+    const debounceFromPrice = useDebounce(filters.price_from, 750)
+    const debounceToPrice = useDebounce(filters.price_to, 750)
+
+    const { data: partyAll, isLoading } = useSWR(`${apiUrl.party}?price_from=${debounceFromPrice}&price_to=${debounceToPrice}`, getParty,
+        // { revalidateOnFocus: false }
+    );
+    const handleModal = (partyId: any) => {
+        setShowDrawer(prev => !prev);
+        setPartyId(partyId)
+    }
+
+
 
     return (
         <>
@@ -73,36 +84,22 @@ const Party = () => {
                             placeholder="от"
                             id="search"
                             name="search"
-                            // value={searchMenuInput}
-                            // onChange={handleMenuSearch}
+                            value={filters.price_from}
+                            onChange={(event) => setFilters(prev => ({ ...prev, price_from: event.target.value }))}
                             className={styles.input_price}
                         />
                     </div>
-                    <p style={{
-                        fontWeight: 'bolder',
-                        color: '#888'
-                    }}>-</p>
                     <div className="">
                         <Input
                             type="text"
                             placeholder="до"
                             id="search"
                             name="search"
-                            // value={searchMenuInput}
-                            // onChange={handleMenuSearch}
+                            value={filters.price_to}
+                            onChange={(event) => setFilters(prev => ({ ...prev, price_to: event.target.value }))}
                             className={styles.input_price}
                         />
                     </div>
-                </div>
-                <div className={styles.dropdowns}>
-                    <FilterDropdown
-                        options={categories}
-                        placeholder="Категории"
-                    />
-                    <FilterDropdown
-                        options={partyFil}
-                        placeholder="Партия"
-                    />
                 </div>
             </div>
             <Table>
@@ -113,19 +110,36 @@ const Party = () => {
                     <TableHeaderCell>Себестоимость</TableHeaderCell>
                     <TableHeaderCell>Дата</TableHeaderCell>
                 </TableHeader>
-                <TableBody>
-                    {party?.map((user) => (
+                <TableBody loading={isLoading}>
+                    {partyAll?.map((user) => (
                         <TableRow key={user.id} style={{ padding: '10px' }}>
-                            <TableCell>{user.Num}</TableCell>
-                            <TableCell>{user.provider}</TableCell>
-                            <TableCell>{user.username}</TableCell>
-                            <TableCell>{user.cost}</TableCell>
-                            <TableCell>{user.date}</TableCell>
+                            <TableCell>{user.id}</TableCell>
+                            <TableCell>{user.supplier}</TableCell>
+                            <TableCell>
+                                <TableCellActions>
+                                    <Button
+                                        icon={<Info16Regular />}
+                                        as="button"
+                                        appearance="subtle"
+                                        onClick={() => handleModal(user.id)}
+                                    ></Button>
+                                </TableCellActions>
+                                {user.fio_oper}
+                            </TableCell>
+                            <TableCell>{user.buy_price}</TableCell>
+                            <TableCell>{format(
+                                new Date(user.created_at),
+                                "dd.MM.yyyy HH:mm:ss"
+                            )}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
             </Table>
-
+            <PartyInfo
+                showDrawer={showDrawer}
+                setShowDrawer={setShowDrawer}
+                partyId={partyId}
+            />
         </>
     )
 }

@@ -9,4 +9,12 @@ export async function getProducts(url: string) {
         console.error(e);
         throw e;
     }
+};
+export async function orderProducts(url: string, products) {
+    try {
+        await request.post(url, products)
+    } catch (e) {
+        console.error(e);
+        throw e;
+    }
 }

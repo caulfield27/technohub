@@ -5,9 +5,9 @@ export const roles: IRole[] = [
     { name: "client" },
 ]
 
-export const permittedRoutes: {[key: string] : string[]} = {
+export const permittedRoutes: { [key: string]: string[] } = {
     client: ["/products", "/ordersStatus"],
-    supervisor: ["/products", "/orders", "/statistics", "/users", "/storages"],
-    operator: ["/products", "/statistics"]
+    supervisor: ["/products", "/orders", "/statistics", "/users", "/storages", "/party"],
+    operator: ["/products", "/statistics", "/party"]
 
 }

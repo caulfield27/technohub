@@ -52,6 +52,8 @@ export const useStyles = makeStyles({
     justifyContent: "center",
     alignItems: "flex-start",
     padding: "16px",
+    position: 'fixed',
+    bottom: '-6px'
   },
 
   navContainer: {
@@ -109,6 +111,37 @@ export const useStyles = makeStyles({
   roleSpan: {
     fontSize: "14px",
     color: "grey",
+  },
+  floating_container: {
+    position: "sticky",
+    bottom: "70px",
+    left: "10px",
+    right: '10px',
+    padding: "8px",
+    borderRadius: "12px",
+    zIndex: "999",
+    background: tokens.colorNeutralBackground1,
+    width: "92%",
+    gap: "8px",
+    border: `2px solid ${tokens.colorNeutralBackground5}`,
+  },
+  sign_out: {
+    display: "flex",
+    paddingTop: "8px",
+    width: "100%",
+    button: {
+      width: "100%",
+      display: "flex",
+      justifyContent: "flex-start",
+    },
+  },
+  version: {
+    display: "flex",
+    justifyContent: "center",
+    background: "inherit",
+    width: "inherit",
+    color: tokens.colorNeutralBackground3Pressed,
+    fontSize: "12px",
   },
 });
 

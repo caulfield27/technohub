@@ -71,6 +71,13 @@ request.interceptors.response.use(
   }
 );
 
+export function logout() {
+  localStorage.removeItem('access_token');
+  localStorage.removeItem('refresh_token');
+
+  window.location.href = "/";
+}
+
 export const apiUrl = {
   warehouse: "/warehouse/all",
   refresh: "/auth/refresh-token",
@@ -80,5 +87,8 @@ export const apiUrl = {
   users: "/user/all",
   createUser: "/user/create-user",
   roles: "/user/roles",
-  products: "/product/all"
+  products: "/product/all",
+  orderProduct: "/product/order",
+  createParty: "/batch/new",
+  party: "/batch/all",
 }
