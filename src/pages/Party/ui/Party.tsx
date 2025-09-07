@@ -41,10 +41,7 @@ const Party = () => {
         setShowDrawer(prev => !prev);
         setPartyId(partyId)
     }
-
-    console.log(user?.Role.Code);
-
-
+    
     return (
         <>
             {/* <div className={styles.page_title}>
@@ -142,17 +139,17 @@ const Party = () => {
                     ))}
                 </TableBody>
             </Table>
-       
+
             {showDrawer && <PartyInfo
                 showDrawer={showDrawer}
                 setShowDrawer={setShowDrawer}
                 partyId={partyId}
-            />
-            <Drawer
+            />}
+            {openDrawer && <Drawer
                 open={openDrawer}
                 toggle={(v?: boolean) => setOpenDrawer(v ?? false)}
                 onCreated={() => { mutate() }}
-            />
+            />}
         </>
     )
 }
