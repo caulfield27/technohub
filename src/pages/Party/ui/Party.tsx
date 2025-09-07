@@ -49,8 +49,22 @@ const Party = () => {
             {/* <div className={styles.page_title}>
                 <Title2>Партии</Title2>
             </div> */}
-            {/* <div className={styles.filter_container}>
-                
+            <div className={styles.filter_container}>
+                <div>
+                    <Input
+                        type="text"
+                        placeholder="Поиск"
+                        id="search"
+                        name="search"
+                        contentBefore={<Search16Regular />}
+                        value={filters.search}
+                        onChange={(event) => setFilters(prev => ({ ...prev, search: event.target.value }))}
+                        className={styles.input_filed}
+                        autoComplete="off"
+                        autoFocus={true}
+                        style={{ ['--colorStrokeFocus2' as any]: 'green', ['--colorStrokeAccessible' as any]: 'rgba(0,0,0,0.35)' }}
+                    />
+                </div>
                 <Button
                     className={styles.add_btn}
                     icon={<Add12Regular />}
@@ -63,7 +77,7 @@ const Party = () => {
                 >
                     Добавить
                 </Button>
-            </div> */}
+            </div>
             <div className={styles.filters}>
                 <div className={styles.filter_price}>
                     <p style={{
@@ -92,20 +106,6 @@ const Party = () => {
                             className={styles.input_price}
                         />
                     </div>
-                </div>
-                <div className="">
-                    <Button
-                    className={styles.add_btn}
-                    icon={<Add12Regular />}
-                    appearance="primary"
-                    onClick={() => setOpenDrawer(true)}
-                    style={{
-                        background: 'var(--primery-green-color)',
-                        color: '#fff'
-                    }}
-                >
-                    Добавить
-                </Button>
                 </div>
             </div>
             <Table>
