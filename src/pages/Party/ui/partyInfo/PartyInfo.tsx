@@ -48,7 +48,7 @@ const PartyInfo = ({ showDrawer, setShowDrawer, partyId }: IAddRequest) => {
                 position="end"
                 style={{ width: '1200px' }}
             >
-                <DrawerHeader className={mergeStyles(drawer_background)}>
+                <DrawerHeader  className={mergeStyles(drawer_background)}>
                     <DrawerHeaderTitle
                         action={
                             <Button

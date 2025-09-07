@@ -64,7 +64,7 @@ const Party = () => {
                     className={styles.add_btn}
                     icon={<Add12Regular />}
                     appearance="primary"
-                     onClick={() => setOpenDrawer(true)}
+                    onClick={() => setOpenDrawer(true)}
                     style={{
                         background: 'var(--primery-green-color)',
                         color: '#fff'
@@ -136,16 +136,16 @@ const Party = () => {
                     ))}
                 </TableBody>
             </Table>
-            <PartyInfo
+            {showDrawer && <PartyInfo
                 showDrawer={showDrawer}
                 setShowDrawer={setShowDrawer}
                 partyId={partyId}
-            />
-            <Drawer
-        open={openDrawer}
-        toggle={(v?: boolean) => setOpenDrawer(v ?? false)}
-        onCreated={() => {}}
-      />
+            />}
+            {openDrawer && <Drawer
+                open={openDrawer}
+                toggle={(v?: boolean) => setOpenDrawer(v ?? false)}
+                onCreated={() => { }}
+            />}
         </>
     )
 }
