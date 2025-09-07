@@ -21,20 +21,6 @@ import { useGlobalStore } from "@/shared/store/global.store";
 import { getCategories } from "@/pages/Party/api";
 import { getStorages } from "@/pages/storage/api";
 
-const categories = [
-    { id: 1, value: "техника" },
-    { id: 2, value: "Компютеры" },
-    { id: 3, value: "Игрушки" },
-    { id: 4, value: "Мебелб" },
-]
-
-const party = [
-    { id: 1, value: 1 },
-    { id: 2, value: 1 },
-    { id: 3, value: 1 },
-    { id: 4, value: 1 },
-]
-
 const Products = () => {
     const styles = useProductstyles();
     const [filters, setFilters] = useState({
@@ -58,7 +44,6 @@ const Products = () => {
 
     const isDisable = !products?.some((item) => item.choosed)
 
-
     //add request modal
     const [showDrawer, setShowDrawer] = useState(false)
 
@@ -80,22 +65,23 @@ const Products = () => {
         }
     }, [productAll])
 
-    const category = categoryAll.categories
+    const category = categoryAll?.categories ?? [];
+
     const getCategoryName = (id) => {
         const name = category?.filter((item) => item.ID == id)
         if (name) {
-            return name[0].name
+            return name[0]?.name ?? ""
         } else {
             return ''
         }
     }
 
-    const storage = storageAll;
+    const storage = storageAll ?? [];
 
     const getStorageName = (id) => {
         const name = storage?.filter((item) => item.ID == id)
         if (name) {
-            return name[0].Name.slice(0,7)
+            return name[0]?.Name.slice(0, 7) ?? ""
         } else {
             return ''
         }
@@ -165,7 +151,12 @@ const Products = () => {
                 </div>
                 <div className={styles.dropdowns}>
                     <FilterDropdown
-                        options={categories}
+                        options={
+                            category?.map((c) => ({
+                                id: c?.ID,
+                                value: c?.name,
+                            })) ?? []
+                        }
                         placeholder="Категории"
                         value={filters.category_id}
                         // onChange={(_: any, data: any) => setFilters(prev => ({ ...prev, category_id: data.optionValue }))}
@@ -173,14 +164,14 @@ const Products = () => {
                             setFilters(prev => ({ ...prev, category_id: value }))
                         }
                     />
-                    {user?.Role.Code != 'client' && <FilterDropdown
+                    {/* {user?.Role.Code != 'client' && <FilterDropdown
                         options={party}
                         placeholder="Партия"
                         value={filters.batch_id}
                         onChange={(value) =>
                             setFilters(prev => ({ ...prev, batch_id: value }))
                         }
-                    />}
+                    />} */}
                 </div>
             </div>
             <Table>

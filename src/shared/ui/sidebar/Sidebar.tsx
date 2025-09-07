@@ -16,7 +16,6 @@ import { DrawerMotion, useStyles } from "./styles";
 import { useGlobalStore } from "../../store/global.store";
 import { usePermittedLinks } from "@/shared/hooks/usePermittedLinks";
 import { SignOut20Regular } from "@fluentui/react-icons";
-import { SignOut20Regular } from "@fluentui/react-icons";
 import { logout } from "@/shared/api/api.config";
 import Logo from "../logo/Logo";
 
