@@ -96,7 +96,6 @@ export const apiUrl = {
   roles: "/user/roles",
   products: "/product/all",
   createWarehouse: "/warehouse/create",
-  createWarehouse: "/warehouse/create",
   getCategories: "/category/get-categories",
   createCategory: "/category/create-category",
   orderUpdate: "/order/update",

@@ -7,6 +7,6 @@ export interface IParty {
     sold_percent: number;
     warehouse_id: number;
     created_at: string;
+    operator_id: string;
 }
-
 

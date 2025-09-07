@@ -1,7 +1,6 @@
-import { Button, Input, Label, TableSelectionCell, Title2 } from "@fluentui/react-components";
+import { Button, Input, TableSelectionCell } from "@fluentui/react-components";
 import { useProductstyles } from "./styles";
-import { Add12Regular, Search16Regular } from "@fluentui/react-icons";
-import { products } from "../api/data";
+import { Search16Regular } from "@fluentui/react-icons";
 import FilterDropdown from "../../../shared/ui/filterDropdown/FilterDropdown";
 import { useProductsStore } from "../store/products.store";
 import type { IProduct } from "../../../shared/types/products";
@@ -44,7 +43,6 @@ const Products = () => {
 
     const isDisable = !products?.some((item) => item.choosed)
 
-    //add request modal
     const [showDrawer, setShowDrawer] = useState(false)
 
     const toggleDrawer = () => {
@@ -53,7 +51,6 @@ const Products = () => {
 
 
     const handleProduct = (product: IProduct) => {
-        // setChoosedProducs(product)
         setUpdateProducs(product.ID)
     }
 
@@ -67,8 +64,8 @@ const Products = () => {
 
     const category = categoryAll?.categories ?? [];
 
-    const getCategoryName = (id) => {
-        const name = category?.filter((item) => item.ID == id)
+    const getCategoryName = (id: any) => {
+        const name = category?.filter((item: any) => item.ID == id)
         if (name) {
             return name[0]?.name ?? ""
         } else {
@@ -78,7 +75,7 @@ const Products = () => {
 
     const storage = storageAll ?? [];
 
-    const getStorageName = (id) => {
+    const getStorageName = (id: any) => {
         const name = storage?.filter((item) => item.ID == id)
         if (name) {
             return name[0]?.Name.slice(0, 7) ?? ""
@@ -152,15 +149,14 @@ const Products = () => {
                 <div className={styles.dropdowns}>
                     <FilterDropdown
                         options={
-                            category?.map((c) => ({
+                            category?.map((c: any) => ({
                                 id: c?.ID,
                                 value: c?.name,
                             })) ?? []
                         }
                         placeholder="Категории"
                         value={filters.category_id}
-                        // onChange={(_: any, data: any) => setFilters(prev => ({ ...prev, category_id: data.optionValue }))}
-                        onChange={(value) =>
+                        onChange={(value: any) =>
                             setFilters(prev => ({ ...prev, category_id: value }))
                         }
                     />
@@ -184,7 +180,7 @@ const Products = () => {
                         // onKeyDown={toggleAllKeydown}
                         checkboxIndicator={{ "aria-label": "Select all rows " }}
                     />} */}
-                    {user?.Role.Code == 'client' && <TableHeaderCell></TableHeaderCell>}
+                    {user?.Role.Code == 'client' && <TableHeaderCell><></></TableHeaderCell>}
                     <TableHeaderCell>Название</TableHeaderCell>
                     <TableHeaderCell>Бренд</TableHeaderCell>
                     {user?.Role.Code != 'client' && <TableHeaderCell>Себес-ть</TableHeaderCell>}
@@ -210,7 +206,7 @@ const Products = () => {
                             <TableCell>{product.Desc}</TableCell>
                             {user?.Role.Code != 'client' && <TableCell>{product.BuyPrice}</TableCell>}
                             <TableCell>{product.SellPrice}</TableCell>
-                            <TableCell>{(product.Quantity - product.Ordered)}</TableCell>
+                            <TableCell>{(product.Quantity - (product?.Ordered ?? 0))}</TableCell>
                             <TableCell>{product.Unit}</TableCell>
                             <TableCell>
                                 {getCategoryName(product.CategoryId)}
@@ -227,7 +223,6 @@ const Products = () => {
             <AddRequestClient
                 showDrawer={showDrawer}
                 setShowDrawer={setShowDrawer}
-                products={products?.filter((item) => item.choosed)}
             />
         </>
     )

@@ -1,5 +1,5 @@
 import { usePartyStyles } from './styles'
-import { Button, Input, TableCellActions, Title2 } from '@fluentui/react-components';
+import { Button, Input, TableCellActions } from '@fluentui/react-components';
 import { Add12Regular, Info16Regular, Search16Regular } from '@fluentui/react-icons';
 import Table from '@/shared/ui/table/Table';
 import TableHeader from '@/shared/ui/table/TableHeader';
@@ -117,7 +117,7 @@ const Party = () => {
                     <TableHeaderCell>Дата</TableHeaderCell>
                 </TableHeader>
                 <TableBody loading={isLoading}>
-                    {partyAll?.filter((item => user?.Role.Code == "supervisor" ? item : (item.operator_id == user.ID))).map((user) => (
+                    {partyAll?.filter((item => user?.Role.Code == "supervisor" ? item : (String(item.operator_id) == String(user?.ID)))).map((user) => (
                         <TableRow key={user.id} style={{ padding: '10px' }}>
                             <TableCell>{user.id}</TableCell>
                             <TableCell>{user.supplier}</TableCell>

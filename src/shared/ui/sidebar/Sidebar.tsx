@@ -8,7 +8,6 @@ import {
     NavDrawerBody,
     NavDrawerFooter,
     NavDrawerHeader,
-    Title3,
 } from "@fluentui/react-components";
 
 import { NavLink, useNavigate } from "react-router";

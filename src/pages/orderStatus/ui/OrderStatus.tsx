@@ -5,7 +5,7 @@ import TableCell from "@/shared/ui/table/TableCell";
 import TableHeader from "@/shared/ui/table/TableHeader";
 import TableHeaderCell from "@/shared/ui/table/TableHeaderCell";
 import TableRow from "@/shared/ui/table/TableRow";
-import { Button, TableCellActions, Title2 } from "@fluentui/react-components";
+import { Button, TableCellActions } from "@fluentui/react-components";
 import useSWR from "swr";
 import { getOrders } from "../api";
 import { useGlobalStore } from "@/shared/store/global.store";
@@ -16,12 +16,11 @@ import { useState } from "react";
 
 const OrderStatus = () => {
     const { data: ordersAll, isLoading } = useSWR(`${apiUrl.orders}`, getOrders);
-    // console.log(ordersAll);
     const [showDrawer, setShowDrawer] = useState(false)
     const [orders, setOrders] = useState()
     const { user } = useGlobalStore()
 
-    const sortedorders = ordersAll?.filter((item) => item.user_id == user?.ID)
+    const sortedorders = ordersAll?.filter((item: any) => item.user_id == user?.ID)
 
 
     const handleModal = (orders: any) => {
@@ -39,7 +38,7 @@ const OrderStatus = () => {
                 <TableHeaderCell>Дата</TableHeaderCell>
             </TableHeader>
             <TableBody loading={isLoading}>
-                {sortedorders?.map((order) => (
+                {sortedorders?.map((order: any) => (
                     <TableRow
                         // key={order.ID}
                         style={{ padding: '10px' }}

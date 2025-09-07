@@ -2,14 +2,12 @@ import {
     Button,
     Field,
     Input,
-    Spinner,
     Title3,
-    Toaster,
 } from "@fluentui/react-components";
 import { Eye20Filled, Eye20Regular } from "@fluentui/react-icons";
 import { useFormik } from "formik";
-import { useEffect, useId, useState } from "react";
-import { useNavigate, useNavigation } from "react-router";
+import { useState } from "react";
+import { useNavigate } from "react-router";
 import { useLoginStyles } from "./styles";
 import { validationSchema } from "./validation";
 import { apiUrl, request } from "../../../shared/api/api.config";

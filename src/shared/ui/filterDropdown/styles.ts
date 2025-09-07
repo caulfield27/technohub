@@ -1,9 +1,7 @@
 import { makeStyles } from "@fluentui/react";
-import { tokens } from "@fluentui/react-components";
 
 export const useFilterDropstyles = makeStyles({
     root: {
-        // Stack the label above the field with a gap
         display: "grid",
         gridTemplateRows: "repeat(1fr)",
         justifyItems: "start",

@@ -1,5 +1,4 @@
-import React, { useEffect, useState, type Dispatch, type SetStateAction } from 'react'
-import { useAddRequestClientstyles } from './styles'
+import { useState, type Dispatch, type SetStateAction } from 'react'
 import { mergeStyles } from "@fluentui/react";
 import {
     Button,
@@ -7,17 +6,10 @@ import {
     DrawerBody,
     DrawerFooter,
     DrawerHeader,
-    DrawerHeaderTitle,
-    Field,
-    Input,
-    Label,
-    Title3,
+    DrawerHeaderTitle
 } from "@fluentui/react-components";
-import { drawer_background, drawer_footer, input_container } from "../../../../shared/const/styles";
+import { drawer_background, drawer_footer } from "../../../../shared/const/styles";
 import { Dismiss24Regular } from '@fluentui/react-icons';
-import { useFormik } from 'formik';
-import { validationSchema } from './validation';
-import type { IProduct } from '@/shared/types/products';
 import FormPrice from './formPrice/FormPrice';
 import { useProductsStore } from '../../store/products.store';
 import { orderProducts } from '../../api';
@@ -26,11 +18,9 @@ import { apiUrl } from '@/shared/api/api.config';
 interface IAddRequest {
     showDrawer: boolean;
     setShowDrawer: Dispatch<SetStateAction<boolean>>;
-    products: IProduct[]
 }
 
-const AddRequestClient = ({ showDrawer, setShowDrawer, productFrom }: IAddRequest) => {
-    const styles = useAddRequestClientstyles();
+const AddRequestClient = ({ showDrawer, setShowDrawer }: IAddRequest) => {
 
     const { products, setResetProducs } = useProductsStore();
     const productsChoosed = products?.filter((item) => item.choosed)

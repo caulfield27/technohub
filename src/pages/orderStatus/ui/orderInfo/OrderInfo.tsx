@@ -1,4 +1,4 @@
-import React, { useEffect, type Dispatch, type SetStateAction } from 'react'
+import { type Dispatch, type SetStateAction } from 'react'
 import { mergeStyles } from "@fluentui/react";
 import {
     Button,
@@ -16,21 +16,16 @@ import TableHeaderCell from '@/shared/ui/table/TableHeaderCell';
 import TableBody from '@/shared/ui/table/TableBody';
 import TableRow from '@/shared/ui/table/TableRow';
 import TableCell from '@/shared/ui/table/TableCell';
-import useSWR from 'swr';
-import { apiUrl } from '@/shared/api/api.config';
-import { getProducts } from '@/pages/products/api';
 import { useOrderinfostyles } from './styles';
 
 interface IAddRequest {
     showDrawer: boolean;
     setShowDrawer: Dispatch<SetStateAction<boolean>>;
-    orders: []
+    orders: any
 }
 
 const OrderInfo = ({ showDrawer, setShowDrawer, orders }: IAddRequest) => {
     const styles = useOrderinfostyles();
-    console.log(orders);
-
 
     return (
         <div>
@@ -66,7 +61,7 @@ const OrderInfo = ({ showDrawer, setShowDrawer, orders }: IAddRequest) => {
                                 <TableHeaderCell>Ед-изм</TableHeaderCell>
                             </TableHeader>
                             <TableBody>
-                                {orders?.orders.map((product) => (
+                                {orders?.orders.map((product: any) => (
                                     <TableRow
                                         key={product.ID}
                                         style={{ padding: '10px' }}

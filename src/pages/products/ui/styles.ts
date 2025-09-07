@@ -1,5 +1,4 @@
 import { makeStyles } from "@fluentui/react";
-import { tokens } from "@fluentui/react-components";
 
 export const useProductstyles = makeStyles({
     page_title: {

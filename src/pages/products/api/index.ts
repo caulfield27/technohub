@@ -10,7 +10,7 @@ export async function getProducts(url: string) {
         throw e;
     }
 };
-export async function orderProducts(url: string, products) {
+export async function orderProducts(url: string, products: any) {
     try {
         await request.post(url, products)
     } catch (e) {

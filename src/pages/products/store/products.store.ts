@@ -21,11 +21,7 @@ const initialState: IStates = {
 export const useProductsStore = create<IStates & Actions>((set, get) => ({
     ...initialState,
     setChoosedProducs: (products) => {
-        // const { choosedproducts } = get();   
-
-        const newProducts = products;
-        // 
-        set({ products: newProducts })
+        set({ products: products })
     },
     setUpdateProducs: (productId) => {
         const { products } = get();
@@ -38,7 +34,7 @@ export const useProductsStore = create<IStates & Actions>((set, get) => ({
                     return {
                         ...item,
                         choosed: !item.choosed,
-                        sumCount: item.SellPrice * item?.QuantityClient
+                        sumCount: item.SellPrice * (item?.QuantityClient ?? 1)
                     }
                 } else {
                     return item
@@ -48,7 +44,7 @@ export const useProductsStore = create<IStates & Actions>((set, get) => ({
     },
     setProductQuantity: (productId, value) => {
         const { products } = get();
-        // 
+        
         set({
             products: products.map((item) => {
                 if (item.ID == productId) {

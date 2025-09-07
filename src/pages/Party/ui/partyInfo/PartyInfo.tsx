@@ -1,4 +1,4 @@
-import { type Dispatch, type SetStateAction } from "react";
+import { useEffect, type Dispatch, type SetStateAction } from "react";
 import { mergeStyles } from "@fluentui/react";
 import {
   Button,
@@ -86,7 +86,7 @@ const PartyInfo = ({ showDrawer, setShowDrawer, partyId }: IAddRequest) => {
                                         <TableCell>{product.BuyPrice}</TableCell>
                                         <TableCell>{product.SellPrice}</TableCell>
                                         <TableCell>{product.Quantity}</TableCell>
-                                        <TableCell>{(product.Quantity - product.Ordered)}</TableCell>
+                                        <TableCell>{(product.Quantity - (product?.Ordered ?? 0))}</TableCell>
                                         <TableCell>{product.Unit}</TableCell>
                                         <TableCell>{product.CategoryId}</TableCell>
                                         <TableCell>{product.BatchId}</TableCell>
