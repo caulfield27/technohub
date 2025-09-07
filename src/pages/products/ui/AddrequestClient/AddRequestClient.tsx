@@ -1,4 +1,4 @@
-import React, { useEffect, type Dispatch, type SetStateAction } from 'react'
+import React, { useEffect, useState, type Dispatch, type SetStateAction } from 'react'
 import { useAddRequestClientstyles } from './styles'
 import { mergeStyles } from "@fluentui/react";
 import {
@@ -20,6 +20,8 @@ import { validationSchema } from './validation';
 import type { IProduct } from '@/shared/types/products';
 import FormPrice from './formPrice/FormPrice';
 import { useProductsStore } from '../../store/products.store';
+import { orderProducts } from '../../api';
+import { apiUrl } from '@/shared/api/api.config';
 
 interface IAddRequest {
     showDrawer: boolean;
@@ -29,10 +31,33 @@ interface IAddRequest {
 
 const AddRequestClient = ({ showDrawer, setShowDrawer, productFrom }: IAddRequest) => {
     const styles = useAddRequestClientstyles();
+
     const { products } = useProductsStore();
     const productsChoosed = products?.filter((item) => item.choosed)
+    const [loading, setloading] = useState(false)
 
-    // console.log(products);
+    const handleorder = async () => {
+        const orderObj = {
+            orders: [
+                productsChoosed.map((item) => ({
+                    product_id: item.ID,
+                    quantity: item.QuantityClient
+                }))
+            ]
+        }
+        try {
+            if (orderObj) {
+                setloading(true)
+                await orderProducts(apiUrl.orderProduct, orderObj);
+            }
+        } catch (error) {
+            console.error(error)
+        } finally {
+            setShowDrawer(false)
+            setloading(false);
+        }
+
+    }
 
 
     return (
@@ -89,10 +114,13 @@ const AddRequestClient = ({ showDrawer, setShowDrawer, productFrom }: IAddReques
                         appearance="primary" form="add_user" type="submit"
                         style={{
                             background: 'var(--primery-green-color)',
-                            color: '#fff'
+                            color: '#fff',
+                            opacity: loading ? '.5' : '1',
                         }}
+                        onClick={handleorder}
+                        disabled={loading}
                     >
-                        Добавить
+                        {loading ? "Обработка..." : "Заказать"}
                     </Button>
                 </DrawerFooter>
             </Drawer>

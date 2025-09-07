@@ -12,6 +12,7 @@ export const useFilterDropstyles = makeStyles({
     },
     dropdown: {
         minWidth: '100px !important',
-        maxWidth: '110px !important'
+        maxWidth: '150px !important',
+        display:'flex'
     }
 });

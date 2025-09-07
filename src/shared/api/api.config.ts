@@ -71,19 +71,27 @@ request.interceptors.response.use(
   }
 );
 
+export function logout() {
+  localStorage.removeItem('access_token');
+  localStorage.removeItem('refresh_token');
+
+  window.location.href = "/";
+}
+
 export const apiUrl = {
   warehouse: "/warehouse/all",
   refresh: "/auth/refresh-token",
   login: "/auth/log-in",
   getMe: "/user/me",
-  ping: "/ping",
   users: "/user/all",
   createUser: "/user/create-user",
   roles: "/user/roles",
   products: "/product/all",
-  createWarehouse: "/warehouse/create",
+   createWarehouse: "/warehouse/create",
   getCategories: "/category/get-categories",
   createCategory: "/category/create-category",
   orders: "/order/get-orders",
   batchNew: "/batch/new",
-};
+  orderProduct: "/product/order",
+  party: "/batch/all",
+}

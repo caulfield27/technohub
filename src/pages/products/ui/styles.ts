@@ -47,8 +47,8 @@ export const useProductstyles = makeStyles({
         width: '82px'
     },
     dropdowns: {
-display: 'flex',
-alignItems: 'center',
-
+        display: 'flex',
+        alignItems: 'center',
+        gap: '10px'
     },
 });
