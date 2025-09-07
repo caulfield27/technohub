@@ -57,7 +57,7 @@ const OrderStatus = () => {
                                             : order.state == 'rejected' ? '#E03E3E' : '',
                                 }}
                             >
-                                {order.state == 'in_process' ? "В процессе" : "Успешно"}
+                                {order.state == 'in_process' ? "В процессе" :order.state == 'complete' ? "Успешно":"Отменено"}
                             </span>
                             <TableCellActions>
                                 <Button

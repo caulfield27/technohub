@@ -22,6 +22,9 @@ const FilterDropdown = ({ options, placeholder, value, onChange }: any) => {
         // onChange={(_, data) => onChange(data.optionValue)}
         onOptionSelect={(_, data) => onChange(data.optionValue)}
       >
+        <Option value={''}>
+          
+        </Option>
         {options.map((option: { id: number; value: string }) => (
           <Option key={option.id} value={String(option.id)}>
             {option.value}

@@ -18,6 +18,8 @@ import { apiUrl } from "@/shared/api/api.config";
 import { getProducts } from "../api";
 import useDebounce from "@/shared/hooks/useDebounce";
 import { useGlobalStore } from "@/shared/store/global.store";
+import { getCategories } from "@/pages/Party/api";
+import { getStorages } from "@/pages/storage/api";
 
 const categories = [
     { id: 1, value: "техника" },
@@ -40,13 +42,17 @@ const Products = () => {
         category_id: '',
         warehouse_id: '',
         start_price: '',
-        finish_price: ''
+        finish_price: '',
+        search: '',
     })
 
     const debounceFromPrice = useDebounce(filters.start_price, 750)
     const debounceToPrice = useDebounce(filters.finish_price, 750)
+    const debounceSearch = useDebounce(filters.search, 750)
 
-    const { data: productAll, isLoading } = useSWR(`${apiUrl.products}?batch_id=${filters.batch_id}&category_id=${filters.category_id}&warehouse_id=${filters.warehouse_id}&start_price=${debounceFromPrice}&finish_price=${debounceToPrice}`, getProducts);
+    const { data: productAll, isLoading } = useSWR(`${apiUrl.products}?batch_id=${filters.batch_id}&category_id=${filters.category_id}&warehouse_id=${filters.warehouse_id}&start_price=${debounceFromPrice}&finish_price=${debounceToPrice}&search=${debounceSearch}`, getProducts);
+    const { data: categoryAll } = useSWR(`${apiUrl.getCategories}`, getCategories);
+    const { data: storageAll } = useSWR(`${apiUrl.warehouse}`, getStorages);
     const { products, setChoosedProducs, setUpdateProducs } = useProductsStore()
     const { user } = useGlobalStore();
 
@@ -74,6 +80,28 @@ const Products = () => {
         }
     }, [productAll])
 
+    const category = categoryAll.categories
+    const getCategoryName = (id) => {
+        const name = category?.filter((item) => item.ID == id)
+        if (name) {
+            return name[0].name
+        } else {
+            return ''
+        }
+    }
+
+    const storage = storageAll;
+    console.log(storage);
+
+    const getStorageName = (id) => {
+        const name = storage?.filter((item) => item.ID == id)
+        if (name) {
+            return name[0].Name.slice(0,7)
+        } else {
+            return ''
+        }
+    }
+
 
     return (
         <>
@@ -85,8 +113,8 @@ const Products = () => {
                         id="search"
                         name="search"
                         contentBefore={<Search16Regular />}
-                        // value={searchMenuInput}
-                        // onChange={handleMenuSearch}
+                        value={filters.search}
+                        onChange={(event) => setFilters(prev => ({ ...prev, search: event.target.value }))}
                         className={styles.input_filed}
                         autoComplete="off"
                         autoFocus={true}
@@ -192,11 +220,16 @@ const Products = () => {
                             <TableCell>{product.Desc}</TableCell>
                             {user?.Role.Code != 'client' && <TableCell>{product.BuyPrice}</TableCell>}
                             <TableCell>{product.SellPrice}</TableCell>
-                            <TableCell>{product.Quantity}</TableCell>
+                            <TableCell>{(product.Quantity - product.Ordered)}</TableCell>
                             <TableCell>{product.Unit}</TableCell>
-                            <TableCell>{product.CategoryId}</TableCell>
+                            <TableCell>
+                                {getCategoryName(product.CategoryId)}
+                            </TableCell>
                             {user?.Role.Code != 'client' && <TableCell>{product.BatchId}</TableCell>}
-                            {user?.Role.Code != 'client' && <TableCell>{product.WarehouseId}</TableCell>}
+                            {user?.Role.Code != 'client' && <TableCell>
+                                {/* {product.WarehouseId} */}
+                                {getStorageName(product.WarehouseId)}
+                            </TableCell>}
                         </TableRow>
                     ))}
                 </TableBody>
