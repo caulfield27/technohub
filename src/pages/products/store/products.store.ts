@@ -9,6 +9,7 @@ type Actions = {
     setChoosedProducs: (products: IProduct[]) => void;
     setUpdateProducs: (productId: number) => void;
     setProductQuantity: (productId: number, value: string) => void;
+    setResetProducs: () => void;
 }
 
 const initialState: IStates = {
@@ -54,6 +55,17 @@ export const useProductsStore = create<IStates & Actions>((set, get) => ({
                     return { ...item, QuantityClient: +value }
                 } else {
                     return item
+                }
+            })
+        })
+    },
+    setResetProducs: () => {
+        const { products } = get();
+        set({
+            products: products?.map((item) => {
+                return {
+                    ...item,
+                    choosed: false,
                 }
             })
         })

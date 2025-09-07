@@ -32,7 +32,7 @@ interface IAddRequest {
 const AddRequestClient = ({ showDrawer, setShowDrawer, productFrom }: IAddRequest) => {
     const styles = useAddRequestClientstyles();
 
-    const { products } = useProductsStore();
+    const { products, setResetProducs } = useProductsStore();
     const productsChoosed = products?.filter((item) => item.choosed)
     const [loading, setloading] = useState(false)
 
@@ -54,6 +54,7 @@ const AddRequestClient = ({ showDrawer, setShowDrawer, productFrom }: IAddReques
         } finally {
             setShowDrawer(false)
             setloading(false);
+            setResetProducs()
         }
 
     }

@@ -15,10 +15,10 @@ const FormPrice = ({ product }) => {
             <div className={styles.product_info}>
                 <div className="">
                     <div className={styles.product_title}>{product.Name}</div>
-                    <Label className={styles.label_name}>В наличии <span className={styles.price_tot}>{product.Quantity}{product.Unit}</span></Label>
+                    <Label className={styles.label_name}>В наличии <span className={styles.price_tot}>{(product.Quantity - product.Ordered)}{product.Unit}</span></Label>
                     <Input
                         type="text"
-                        value={product.QuantityClient}
+                        value={(product.Quantity - product.Ordered)}
                         placeholder="Макс-кол-во"
                         onChange={(e) => setProductQuantity(product.ID, e.target.value)}
                         appearance="outline"

@@ -26,12 +26,14 @@ const Party = () => {
 
     const [filters, setFilters] = useState({
         price_from: '',
-        price_to: ''
+        price_to: '',
+        search: ''
     })
     const debounceFromPrice = useDebounce(filters.price_from, 750)
     const debounceToPrice = useDebounce(filters.price_to, 750)
+    const debounceToSearch = useDebounce(filters.search, 750)
 
-    const { data: partyAll, isLoading, mutate } = useSWR(`${apiUrl.party}?price_from=${debounceFromPrice}&price_to=${debounceToPrice}`, getParty,
+    const { data: partyAll, isLoading, mutate } = useSWR(`${apiUrl.party}?price_from=${debounceFromPrice}&price_to=${debounceToPrice}&search=${debounceToSearch}`, getParty,
         // { revalidateOnFocus: false }
     );
 
@@ -41,7 +43,7 @@ const Party = () => {
         setShowDrawer(prev => !prev);
         setPartyId(partyId)
     }
-    
+
     return (
         <>
             {/* <div className={styles.page_title}>
@@ -55,8 +57,8 @@ const Party = () => {
                         id="search"
                         name="search"
                         contentBefore={<Search16Regular />}
-                        // value={searchMenuInput}
-                        // onChange={handleMenuSearch}
+                        value={filters.search}
+                        onChange={(event) => setFilters(prev => ({ ...prev, search: event.target.value }))}
                         className={styles.input_filed}
                         autoComplete="off"
                         autoFocus={true}
