@@ -20,6 +20,7 @@ import { apiUrl } from "@/shared/api/api.config";
 import useSwr from "swr";
 import DataLoader from "@/shared/ui/dataLoader/DataLoader";
 import useDebounce from "@/shared/hooks/useDebounce";
+import { formatDate } from "@/shared/utils/formatDate";
 
 export default function Users() {
   const styles = useUserstyles();
@@ -82,12 +83,12 @@ export default function Users() {
         <TableNewComponent>
           <TableHeaderNewComponent>
             <TableHeaderCellComponent>ID</TableHeaderCellComponent>
-            <TableHeaderCell>Username</TableHeaderCell>
+            <TableHeaderCell>Имя пользователя</TableHeaderCell>
             <TableHeaderCell>Email</TableHeaderCell>
-            <TableHeaderCell>Phone</TableHeaderCell>
-            <TableHeaderCell>Role</TableHeaderCell>
-            <TableHeaderCell>CreatedAt</TableHeaderCell>
-            <TableHeaderCell>UpdatedAt</TableHeaderCell>
+            <TableHeaderCell>Телефон</TableHeaderCell>
+            <TableHeaderCell>Роль</TableHeaderCell>
+            <TableHeaderCell>Дата создания</TableHeaderCell>
+            <TableHeaderCell>Дата обновления</TableHeaderCell>
           </TableHeaderNewComponent>
           <TableBodyNewComponent>
             {users?.map((user) => (
@@ -97,8 +98,8 @@ export default function Users() {
                 <TableCell>{user.Email}</TableCell>
                 <TableCell>{user.Phone}</TableCell>
                 <TableCell>{user.Role.Code}</TableCell>
-                <TableCell>{user.CreatedAt}</TableCell>
-                <TableCell>{user.UpdatedAt}</TableCell>
+                <TableCell>{formatDate(user.CreatedAt)}</TableCell>
+                <TableCell>{formatDate(user.UpdatedAt)}</TableCell>
               </TableRowNewComponent>
             ))}
           </TableBodyNewComponent>
