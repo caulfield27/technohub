@@ -72,9 +72,7 @@ const Products = () => {
             setChoosedProducs(filtredProducts ?? [])
         }
     }, [productAll])
-    console.log(user?.Role.Code);
-
-
+    
     return (
         <>
             <div className={styles.filter_container}>

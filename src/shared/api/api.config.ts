@@ -94,4 +94,5 @@ export const apiUrl = {
   batchNew: "/batch/new",
   orderProduct: "/product/order",
   party: "/batch/all",
+  stats: "/statistics/get-statistics"
 }

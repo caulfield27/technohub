@@ -12,6 +12,7 @@
   "dependencies": {
     "@fluentui/react": "^8.123.5",
     "@fluentui/react-components": "^9.69.0",
+    "@fluentui/react-datepicker-compat": "^0.6.13",
     "@fluentui/react-icons": "^2.0.309",
     "@fluentui/react-theme": "^9.2.0",
     "axios": "^1.11.0",
